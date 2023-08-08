@@ -10,8 +10,12 @@ st.markdown(
     - 위 대시보드는 신고가 접수되었을 때, 사람의 판단이 필요한 부분을 빠르게 파악하기 위해 만들어 본 유저 대시보드입니다.
 
     ### 사용방법
-    - MAINPAGE SIDE 에 있는 **유저의 닉네임(summoner_name)** 👈을 입력하시면 가장 최근 경기에 대한 요약이 나옵니다.
-    - 현재는 총 4가지 신고 사유가 있습니다. 
+    ![image](https://github.com/KGochae/LeagueOfLegends-dash/assets/86241587/1f2b916f-c0a4-40c3-a272-30872ed929f1)
+    
+    - [Riot Developer Portal](https://developer.riotgames.com/) 에 들어가서 로그인 후, api_key를 준비합니다!
+    - 메인페이지의 SIDE BAR 에 있는 **유저의 닉네임(summoner_name)** 과 발급받은 **API_KEY** 를 입력하시면 가장 최근 경기에 대한 요약이 나옵니다.
+    - 현재는 총 4가지 신고 사유가 있습니다.( 체크하실 필요없이 모든 결과를 볼 수 있습니다.)
+
     ----
     # 신고사유 4가지 주제
 
