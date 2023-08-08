@@ -10,7 +10,7 @@
 ### 사용방법
 
 
-![image](https://github.com/KGochae/LeagueOfLegends-dash/assets/86241587/1f2b916f-c0a4-40c3-a272-30872ed929f1)
+![image](https://github.com/KGochae/LeagueOfLegends-dash/assets/86241587/f152ee3e-db0a-4966-9389-7e24d9bd0ca6)
 
 - [Riot Developer Portal](https://developer.riotgames.com/) 에 들어가서 로그인 후, api_key를 준비합니다!
 - 메인페이지의 SIDE BAR 에 있는 **유저의 닉네임(summoner_name)** 과 발급받은 **API_KEY** 를 입력하시면 가장 최근 경기에 대한 요약이 나옵니다.
