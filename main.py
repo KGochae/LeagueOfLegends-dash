@@ -1,8 +1,8 @@
 # api_key
 from dotenv import load_dotenv
 import os
-load_dotenv()
-api_key = os.getenv('api_key')
+#load_dotenv()
+#api_key = os.getenv('api_key')
 
 # chart 
 import streamlit as st
@@ -34,6 +34,7 @@ st.caption('신고된 경기의 데이터를 기반으로 유저의 제제여부
 with st.sidebar:
     with st.form(key ='searchform'):
         summoner_name = st.text_input("search_summoner")
+        api_key = st.text_input("api_key")
         st.markdown("---")
         st.write('유저 신고 사유')
         clue = st.checkbox(label="All")
@@ -46,69 +47,78 @@ with st.sidebar:
 
 
 
-if submit_search:
+if submit_search :
+    try:
+        puuid, summoner_id, match_ids, match_data_log = get_match_data_log(summoner_name, api_key)
+        # rank_data  = get_rank_info(summoner_id,api_key)
+        match_info, df, summoner_position, champion_info, game_duration =  get_match_v5(match_ids, puuid ,api_key)
+        id_df, participant_ids, summoner_participantId, moving = get_moving_data(match_data_log,puuid)
+        all_events, position_logs = get_events(match_data_log)
+        
+        radar_data = radar_chart(match_info)
+        total_score, match_score, normalization_df = score_weighted(match_info)
+        score_3  = score3(match_score)
 
-    puuid, summoner_id, match_ids, match_data_log = get_match_data_log(summoner_name, api_key)
-    # rank_data  = get_rank_info(summoner_id,api_key)
-    match_info, df, summoner_position, champion_info, game_duration =  get_match_v5(match_ids, puuid ,api_key)
-    id_df, participant_ids, summoner_participantId, moving = get_moving_data(match_data_log,puuid)
-    all_events, position_logs = get_events(match_data_log)
-    
-    radar_data = radar_chart(match_info)
-    total_score, match_score, normalization_df = score_weighted(match_info)
-    score_3  = score3(match_score)
+        item_gold = get_item_gold()
+        spell_info = get_spell_info(champion_info, puuid)
 
-    item_gold = get_item_gold()
-    spell_info = get_spell_info(champion_info, puuid)
+        df_k, logs_all, kill_damage, death_damage, assist_damage = get_logs_all (all_events,moving,summoner_participantId)
+        death_damage_log, counter_damage_log, damage_counter, kill_damage_log, assist_damage_log, kda_dmg_log = get_damage_logs(death_damage, kill_damage, assist_damage)
 
-    df_k, logs_all, kill_damage, death_damage, assist_damage = get_logs_all (all_events,moving,summoner_participantId)
-    death_damage_log, counter_damage_log, damage_counter, kill_damage_log, assist_damage_log, kda_dmg_log = get_damage_logs(death_damage, kill_damage, assist_damage)
-
-    champion_images, ani = create_animation(participant_ids,puuid,champion_info,logs_all)
-    html = ani.to_jshtml()
+        champion_images, ani = create_animation(participant_ids,puuid,champion_info,logs_all)
+        html = ani.to_jshtml()
 
 
 
-#  ------------------------------- session ------------------------- 
-    st.session_state.puuid = puuid
-    # st.session_state.rank_data = rank_data
-    st.session_state.summoner_name = summoner_name
-    st.session_state.champion_info = champion_info
-    st.session_state.match_info = match_info
+    #  ------------------------------- session ------------------------- 
+        st.session_state.puuid = puuid
+        # st.session_state.rank_data = rank_data
+        st.session_state.summoner_name = summoner_name
+        st.session_state.champion_info = champion_info
+        st.session_state.match_info = match_info
 
-    st.session_state.match_ids = match_ids
-    st.session_state.df = df
-    st.session_state.summoner_participantId = summoner_participantId
-    st.session_state.summoner_position = summoner_position
-    st.session_state.game_duration = game_duration
+        st.session_state.match_ids = match_ids
+        st.session_state.df = df
+        st.session_state.summoner_participantId = summoner_participantId
+        st.session_state.summoner_position = summoner_position
+        st.session_state.game_duration = game_duration
 
-    st.session_state.moving = moving
-    st.session_state.position_logs = position_logs
+        st.session_state.moving = moving
+        st.session_state.position_logs = position_logs
 
-    st.session_state.logs_all = logs_all
-    st.session_state.df_k = df_k
-    st.session_state.radar_data = radar_data
-    st.session_state.match_score = match_score
-    st.session_state.score_3 = score_3
+        st.session_state.logs_all = logs_all
+        st.session_state.df_k = df_k
+        st.session_state.radar_data = radar_data
+        st.session_state.match_score = match_score
+        st.session_state.score_3 = score_3
 
-    st.session_state.item_gold = item_gold
-    st.session_state.spell_info = spell_info
-    st.session_state.all_events = all_events
+        st.session_state.item_gold = item_gold
+        st.session_state.spell_info = spell_info
+        st.session_state.all_events = all_events
 
-    st.session_state.death_damage = death_damage
-    st.session_state.death_damage_log = death_damage_log
+        st.session_state.death_damage = death_damage
+        st.session_state.death_damage_log = death_damage_log
 
-    st.session_state.counter_damage_log = counter_damage_log
-    st.session_state.damage_counter = damage_counter
+        st.session_state.counter_damage_log = counter_damage_log
+        st.session_state.damage_counter = damage_counter
 
-    st.session_state.kill_damage = kill_damage
-    st.session_state.assist_damage = assist_damage
-    st.session_state.kill_damage_log = kill_damage_log
-    st.session_state.assist_damage_log = assist_damage_log
-    st.session_state.kda_dmg_log = kda_dmg_log
+        st.session_state.kill_damage = kill_damage
+        st.session_state.assist_damage = assist_damage
+        st.session_state.kill_damage_log = kill_damage_log
+        st.session_state.assist_damage_log = assist_damage_log
+        st.session_state.kda_dmg_log = kda_dmg_log
 
-    st.session_state.champion_images = champion_images
-    st.session_state.html = html
+        st.session_state.champion_images = champion_images
+        st.session_state.html = html
+
+    except Exception as e:
+            st.markdown('''
+                        --- 
+                        ### 🚨 :red[Error]: RIOT_APIkey와 유저 닉네임을 확인해주세요🥹.
+                        ''')
+            # 에러가 발생하면 세션 초기화
+            st.session_state.clear()
+
 #  ------------------------------------------------------------------
 
 if hasattr(st.session_state, 'puuid'):
