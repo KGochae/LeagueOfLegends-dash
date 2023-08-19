@@ -262,7 +262,7 @@ def death_map (champion_info,puuid,death_damage):
     ax.axis('off')
 
     # Add image of map
-    map_path = "minimap.jpg"  # 로컬 이미지 파일 경로
+    map_path = "img/minimap.png"  # 로컬 이미지 파일 경로
     img = Image.open(map_path)
     ax.imshow(img, extent=[0, 15000, 0, 15000])
 
@@ -288,7 +288,7 @@ def death_map (champion_info,puuid,death_damage):
     ax2.axis('off')
 
     # Add image of map
-    map_path = "minimap.jpg"  # 로컬 이미지 파일 경로
+    map_path = "img/minimap.png"  # 로컬 이미지 파일 경로
     img = Image.open(map_path)
     ax2.imshow(img, extent=[0, 15000, 0, 15000])
 
@@ -318,7 +318,7 @@ def create_animation(participant_ids,puuid,champion_info, logs_all):
     ax.set_ylim(0, 15000)
     ax.axis('off')
 
-    map_path = "minimap.jpg"  # 로컬 이미지 파일 경로
+    map_path = "img/minimap.png"  # 로컬 이미지 파일 경로
     img = Image.open(map_path)
     ax.imshow(img, extent=[0, 15000, 0, 15000])
 
