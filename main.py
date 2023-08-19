@@ -1,8 +1,8 @@
 # api_key
 from dotenv import load_dotenv
 import os
-#load_dotenv()
-#api_key = os.getenv('api_key')
+# load_dotenv()
+# api_key = os.getenv('api_key')
 
 # chart 
 import streamlit as st
@@ -118,6 +118,10 @@ if submit_search :
                         ''')
             # 에러가 발생하면 세션 초기화
             st.session_state.clear()
+
+
+
+
 
 #  ------------------------------------------------------------------
 
