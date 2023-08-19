@@ -48,7 +48,7 @@ with st.sidebar:
 
 
 if submit_search :
-    # try:
+    try:
         puuid, summoner_id, match_ids, match_data_log = get_match_data_log(summoner_name, api_key)
         # rank_data  = get_rank_info(summoner_id,api_key)
         match_info, df, summoner_position, champion_info, game_duration =  get_match_v5(match_ids, puuid ,api_key)
@@ -111,13 +111,13 @@ if submit_search :
         st.session_state.champion_images = champion_images
         st.session_state.html = html
 
-    # except Exception as e:
-    #         st.markdown('''
-    #                     --- 
-    #                     ### 🚨 :red[Error]: RIOT_APIkey와 유저 닉네임을 확인해주세요🥹.
-    #                     ''')
-    #         # 에러가 발생하면 세션 초기화
-    #         st.session_state.clear()
+    except Exception as e:
+            st.markdown('''
+                        --- 
+                        ### 🚨 :red[Error]: RIOT_APIkey와 유저 닉네임을 확인해주세요🥹.
+                        ''')
+            # 에러가 발생하면 세션 초기화
+            st.session_state.clear()
 
 
 
@@ -135,20 +135,30 @@ if hasattr(st.session_state, 'summoner_name'):
 if hasattr(st.session_state, 'df'):
     df = st.session_state.df
 
-# if hasattr(st.session_state, 'rank_data'):
-#     rank_data = st.session_state.rank_data
-#     tier = rank_data[0]['tier'].lower()
-#     rank = rank_data[0]['rank']
-#     wins = rank_data[0]['wins']
-#     losses = rank_data[0]['losses']
+if hasattr(st.session_state, 'rank_data'):
+    rank_data = st.session_state.rank_data
+    
+    if rank_data:
+        tier = rank_data[1]['tier']
+        rank = rank_data[1]['rank']
+        wins = rank_data[1]['wins']
+        losses = rank_data[1]['losses']
 
-#     wins = sum([entry['wins'] for entry in rank_data])
-#     losses = sum([entry['losses'] for entry in rank_data])
-#     win_lose = [
-#         {"id": "Wins", "label": "Wins", "value": wins},
-#         {"id": "Losses", "label": "Losses", "value": losses}
-#     ]
-#     colors_list = ['#459ae5', '#ed4141']
+        wins = sum([entry['wins'] for entry in rank_data])
+        losses = sum([entry['losses'] for entry in rank_data])
+        win_lose = [
+            {"id": "Wins", "label": "Wins", "value": wins},
+            {"id": "Losses", "label": "Losses", "value": losses}
+        ]
+    else:
+        tier = "N/A"
+        rank = "N/A"
+        wins = 0
+        losses = 0
+        win_lose = [
+            {"id": "Wins", "label": "Wins", "value": 0},
+            {"id": "Losses", "label": "Losses", "value": 0}
+        ]
 
 
 if hasattr(st.session_state, 'all_events'):
@@ -264,127 +274,6 @@ if hasattr(st.session_state, 'match_score'):
     # st.write(match_score)
     rnk = match_score[match_score['championName'] == summoner_champion]['rank'].iloc[0].astype(int)
     # st.write(rnk)
-
-# --- 소환사 info card 
-
-    with st.container():
-        with elements("info"):
-            layout = [dashboard.Item("first_item", 0, 0, 3, 1),
-                        dashboard.Item("second_item", 3, 0, 2, 1),
-                        dashboard.Item("third_item", 5, 0, 5, 1)
-                        ]
-            with dashboard.Grid(layout):        
-                mui.Card( # 소환사 정보
-                    sx={
-                        "display": "flex",
-                        "background-color": "#0e1117"
-                    },
-                    children = [
-                        mui.CardContent(
-                            sx={"align-items": "center"},
-                            children=[
-                                mui.Typography(
-                                    "티어",
-                                    variant="body3",
-                                    color="text.secondary"
-                                ),
-                                mui.Typography(
-                                    f"error", #{tier} {rank}
-                                    sx= {"padding-bottom": "16px"}
-                                ),
-
-                                mui.Typography(
-                                    "소환사",
-                                    variant = "body2",
-                                    color="text.secondary"
-                                ),                                        
-                                mui.Typography(
-                                    f"{summoner_name}",
-                                    variant="body2",
-                                    sx={"font-size":"14px",
-                                        }
-                                ),
-                            ]
-                        ),    
-                        mui.CardContent(
-                            mui.CardMedia( # 티어사진
-                                    sx={"padding-left": 0, 
-                                        "height": 100,
-                                        "width": 120,
-                                    },
-                                ),
-                            )
-                    ] , key="first_item" )
-                
-                # mui.Card(# 승률
-
-                #     nivo.Pie( 
-                #             data=win_lose,
-                #             margin={"top": 8, "right": 30, "bottom": 15, "left": 20 },
-                #             innerRadius={0.5},
-                #             padAngle={2},
-                #             activeOuterRadiusOffset={8},
-                #             colors=colors_list,                   
-                #             borderWidth={1},
-                #             borderColor={
-                #                 "from": 'color',
-                #                 "modifiers": [
-                #                     [
-                #                         'darker',
-                #                         0.2,
-                #                         'opacity',
-                #                         0.6
-                #                     ]
-                #                 ]
-                #             },
-                #             enableArcLinkLabels=False,
-                #             arcLinkLabelsSkipAngle={10},
-                #             arcLinkLabelsTextColor="white",
-                #             arcLinkLabelsThickness={0},
-                #             arcLinkLabelsColor={ "from": 'color', "modifiers": [] },
-                #             arcLabelsSkipAngle={10},
-                #             arcLabelsTextColor={ "theme": 'background' },
-                #             legends=[
-                #                 {
-                #                     "anchor": "bottom",
-                #                     "direction": "row",
-                #                     "translateX": 0,
-                #                     "translateY": 20,
-                #                     "itemWidth": 50,
-                #                     "itemsSpacing" : 5,
-                #                     "itemHeight": 20,
-                #                     "itemTextColor": "white",
-                #                     "symbolSize": 7,
-                #                     "symbolShape": "circle",
-                #                     "effects": [
-                #                         {
-                #                             "on": "hover",
-                #                             "style": {
-                #                                 "itemTextColor": "white"
-                #                             }
-                #                         }
-                #                     ]
-                #                 }
-                #             ],
-                #             theme={
-                #                 "background": "#0e1117",
-                #                 "textColor": "white",
-                #                 "tooltip": {
-                #                     "container": {
-                #                         "background": "#3a3c4a",
-                #                         "color": "white",
-                #                     }
-                #                 }
-                #             },
-                #         )
-                #         ,key="second_item")
-                # mui.Card(
-                #     mui.CardContent(
-                #         mui.Typography(
-                #             "신고누적",                                
-                #         )
-                #     )
-                # ,key="third_item")
 
         
 
@@ -942,68 +831,68 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         key="second_item",elevation=0, sx={"background-color" : "black","background-size" : "cover"})
 
                     mui.Card('rank api error',key="third_item")
-                    # mui.Card(# 승률
+                    mui.Card(# 승률
 
-                    #         nivo.Pie( 
-                    #                 data=win_lose,
-                    #                 margin={"top": 8, "right": 30, "bottom": 15, "left": 20 },
-                    #                 innerRadius={0.5},
-                    #                 padAngle={2},
-                    #                 activeOuterRadiusOffset={8},
-                    #                 colors=colors_list,                   
-                    #                 borderWidth={1},
-                    #                 borderColor={
-                    #                     "from": 'color',
-                    #                     "modifiers": [
-                    #                         [
-                    #                             'darker',
-                    #                             0.2,
-                    #                             'opacity',
-                    #                             0.6
-                    #                         ]
-                    #                     ]
-                    #                 },
-                    #                 enableArcLinkLabels=False,
-                    #                 arcLinkLabelsSkipAngle={10},
-                    #                 arcLinkLabelsTextColor="white",
-                    #                 arcLinkLabelsThickness={0},
-                    #                 arcLinkLabelsColor={ "from": 'color', "modifiers": [] },
-                    #                 arcLabelsSkipAngle={10},
-                    #                 arcLabelsTextColor={ "theme": 'background' },
-                    #                 legends=[
-                    #                     {
-                    #                         "anchor": "bottom",
-                    #                         "direction": "row",
-                    #                         "translateX": 0,
-                    #                         "translateY": 20,
-                    #                         "itemWidth": 50,
-                    #                         "itemsSpacing" : 5,
-                    #                         "itemHeight": 20,
-                    #                         "itemTextColor": "white",
-                    #                         "symbolSize": 7,
-                    #                         "symbolShape": "circle",
-                    #                         "effects": [
-                    #                             {
-                    #                                 "on": "hover",
-                    #                                 "style": {
-                    #                                     "itemTextColor": "white"
-                    #                                 }
-                    #                             }
-                    #                         ]
-                    #                     }
-                    #                 ],
-                    #                 theme={
-                    #                     "background": "black",
-                    #                     "textColor": "white",
-                    #                     "tooltip": {
-                    #                         "container": {
-                    #                             "background": "#3a3c4a",
-                    #                             "color": "white",
-                    #                         }
-                    #                     }
-                    #                 },
-                    #             )
-                    #             ,key="third_item")
+                            nivo.Pie( 
+                                    data=win_lose,
+                                    margin={"top": 8, "right": 30, "bottom": 15, "left": 20 },
+                                    innerRadius={0.5},
+                                    padAngle={2},
+                                    activeOuterRadiusOffset={8},
+                                    colors=['#459ae5', '#ed4141'],           
+                                    borderWidth={1},
+                                    borderColor={
+                                        "from": 'color',
+                                        "modifiers": [
+                                            [
+                                                'darker',
+                                                0.2,
+                                                'opacity',
+                                                0.6
+                                            ]
+                                        ]
+                                    },
+                                    enableArcLinkLabels=False,
+                                    arcLinkLabelsSkipAngle={10},
+                                    arcLinkLabelsTextColor="white",
+                                    arcLinkLabelsThickness={0},
+                                    arcLinkLabelsColor={ "from": 'color', "modifiers": [] },
+                                    arcLabelsSkipAngle={10},
+                                    arcLabelsTextColor={ "theme": 'background' },
+                                    legends=[
+                                        {
+                                            "anchor": "bottom",
+                                            "direction": "row",
+                                            "translateX": 0,
+                                            "translateY": 20,
+                                            "itemWidth": 50,
+                                            "itemsSpacing" : 5,
+                                            "itemHeight": 20,
+                                            "itemTextColor": "white",
+                                            "symbolSize": 7,
+                                            "symbolShape": "circle",
+                                            "effects": [
+                                                {
+                                                    "on": "hover",
+                                                    "style": {
+                                                        "itemTextColor": "white"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    theme={
+                                        "background": "black",
+                                        "textColor": "white",
+                                        "tooltip": {
+                                            "container": {
+                                                "background": "#3a3c4a",
+                                                "color": "white",
+                                            }
+                                        }
+                                    },
+                                )
+                                ,key="third_item")
 
 
                     if merged: #(nivo.bar)
