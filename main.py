@@ -48,7 +48,7 @@ with st.sidebar:
 
 
 if submit_search :
-    try:
+    # try:
         puuid, summoner_id, match_ids, match_data_log = get_match_data_log(summoner_name, api_key)
         # rank_data  = get_rank_info(summoner_id,api_key)
         match_info, df, summoner_position, champion_info, game_duration =  get_match_v5(match_ids, puuid ,api_key)
@@ -111,13 +111,13 @@ if submit_search :
         st.session_state.champion_images = champion_images
         st.session_state.html = html
 
-    except Exception as e:
-            st.markdown('''
-                        --- 
-                        ### 🚨 :red[Error]: RIOT_APIkey와 유저 닉네임을 확인해주세요🥹.
-                        ''')
-            # 에러가 발생하면 세션 초기화
-            st.session_state.clear()
+    # except Exception as e:
+    #         st.markdown('''
+    #                     --- 
+    #                     ### 🚨 :red[Error]: RIOT_APIkey와 유저 닉네임을 확인해주세요🥹.
+    #                     ''')
+    #         # 에러가 발생하면 세션 초기화
+    #         st.session_state.clear()
 
 
 
