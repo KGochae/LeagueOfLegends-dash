@@ -25,6 +25,8 @@ pd.set_option('mode.chained_assignment',  None)
 st.set_page_config(layout="wide",page_title = "League Of Legends report dash board")
 mpl.rcParams['animation.embed_limit'] = 40 # 단위: MB
 
+with open( "css/main_css.css" ) as css:
+    st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
 
 st.title('League Of Legends(KR)')
 st.subheader('Report dash board')
@@ -394,46 +396,6 @@ if hasattr(st.session_state, 'match_score'):
 
     st.divider()
     
-# st.caption CSS 일부 수정
-    st.markdown(
-        """
-    <style>
-
-    # section.main > div {max-width:100rem;
-    #                         }
-
-
-    div[data-testid="metric-container"] {
-    padding: 5% 5% 5% 10%;
-    border-radius: 5px;
-    color: white;
-    overflow-wrap: break-word;
-    }
-
-
-    label[data-testid="stMetricLabel"] {
-        display: none;
-
-    }
-    [data-testid="stMetricValue"]{
-        text-align: center;
-        font-size: 15px;
-
-    }
-    [data-testid="stMetricDelta"]{
-        overflow-wrap: break-word;
-        font-size: 15px;
-        text-align: center;
-    }
-
-    [data-testid="stMetricDelta"] svg {
-        display: none;
-    }
-
-    </style>
-    """,
-        unsafe_allow_html=True,
-    )
 
 # score
 if hasattr(st.session_state, 'score_3'): 
