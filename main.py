@@ -26,7 +26,7 @@ st.set_page_config(layout="wide",page_title = "League Of Legends report dash boa
 mpl.rcParams['animation.embed_limit'] = 40 # 단위: MB
 
 
-st.title('League Of Legends')
+st.title('League Of Legends(KR)')
 st.subheader('Report dash board')
 st.caption('신고된 경기의 데이터를 기반으로 유저의 제제여부를 결정할 수 있는 대시보드입니다. 경기가 끝나고 신고를했다는 가정이므로 가장 최근에 진행한 경기의 정보가 나옵니다.😀')
 
