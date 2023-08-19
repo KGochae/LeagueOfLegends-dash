@@ -47,7 +47,6 @@ def get_match_data_log(summoner_name, api_key, start=0,count=1):
 
 
 # 유저의 랭크와 승률  
-################################## 랭크 url이 자꾸 에러뜬다 #############################
 def get_rank_info (summoner_id, api_key):
     rank_info = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{}?api_key={}"
     url = rank_info.format(summoner_id, api_key)
