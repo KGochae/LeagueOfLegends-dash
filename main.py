@@ -139,20 +139,22 @@ if hasattr(st.session_state, 'df'):
 
 if hasattr(st.session_state, 'rank_data'):
     rank_data = st.session_state.rank_data
-    
-    if rank_data:
-        tier = rank_data[1]['tier']
-        rank = rank_data[1]['rank']
-        wins = rank_data[1]['wins']
-        losses = rank_data[1]['losses']
+    try:
+        if rank_data:
+            tier = rank_data[1]['tier']
+            rank = rank_data[1]['rank']
+            wins = rank_data[1]['wins']
+            losses = rank_data[1]['losses']
 
-        wins = sum([entry['wins'] for entry in rank_data])
-        losses = sum([entry['losses'] for entry in rank_data])
-        win_lose = [
-            {"id": "Wins", "label": "Wins", "value": wins},
-            {"id": "Losses", "label": "Losses", "value": losses}
-        ]
-    else:
+            wins = sum([entry['wins'] for entry in rank_data])
+            losses = sum([entry['losses'] for entry in rank_data])
+            win_lose = [
+                {"id": "Wins", "label": "Wins", "value": wins},
+                {"id": "Losses", "label": "Losses", "value": losses}
+            ]
+        else:
+            win_lose = []
+    except:
         win_lose = []
 
 
