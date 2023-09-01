@@ -1,4 +1,4 @@
-# LeagueOfLegends-dash
+# LeagueOfLegends dashboard
 
 * (2023-06-01) 
 * ~(2023-07-31) rank url 에 문제가 생겼습니다. (최근 승/패 여부와 rank 에 관한 정보)~ 
@@ -9,7 +9,7 @@
 - 위 대시보드는 신고가 접수되었을 때, 사람의 판단이 필요한 부분을 빠르게 파악하기 위해 만들어 본 유저 대시보드입니다.
 
 ### 사용방법
-
+* [LeagueOfLegends-dashboard](https://leagueoflegends-dash-ytcwvappksi2kdzg8jtjynj.streamlit.app/)
 
 ![image](https://github.com/KGochae/LeagueOfLegends-dash/assets/86241587/f152ee3e-db0a-4966-9389-7e24d9bd0ca6)
 
