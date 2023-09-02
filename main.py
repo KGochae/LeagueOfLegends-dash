@@ -1,9 +1,3 @@
-# api_key
-from dotenv import load_dotenv
-import os
-# load_dotenv()
-# api_key = os.getenv('api_key')
-
 # chart 
 import streamlit as st
 from streamlit_elements import dashboard
@@ -23,12 +17,16 @@ import matplotlib as mpl
 # -------------------------------------------- main -----------------------------------------------------
 pd.set_option('mode.chained_assignment',  None)
 st.set_page_config(layout="wide",page_title = "League Of Legends report dash board")
-mpl.rcParams['animation.embed_limit'] = 40 # 단위: MB
 
-with open( "css/main_css.css" ) as css:
+
+with open( "main_css.css" ) as css:
     st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
 
-st.title('League Of Legends(KR)')
+
+mpl.rcParams['animation.embed_limit'] = 40 # 단위: MB
+
+
+st.title('League Of Legends')
 st.subheader('Report dash board')
 st.caption('신고된 경기의 데이터를 기반으로 유저의 제제여부를 결정할 수 있는 대시보드입니다. 경기가 끝나고 신고를했다는 가정이므로 가장 최근에 진행한 경기의 정보가 나옵니다.😀')
 
@@ -141,10 +139,10 @@ if hasattr(st.session_state, 'rank_data'):
     rank_data = st.session_state.rank_data
     try:
         if rank_data:
-            tier = rank_data[1]['tier']
-            rank = rank_data[1]['rank']
-            wins = rank_data[1]['wins']
-            losses = rank_data[1]['losses']
+            tier = rank_data[0]['tier']
+            rank = rank_data[0]['rank']
+            wins = rank_data[0]['wins']
+            losses = rank_data[0]['losses']
 
             wins = sum([entry['wins'] for entry in rank_data])
             losses = sum([entry['losses'] for entry in rank_data])
@@ -156,7 +154,6 @@ if hasattr(st.session_state, 'rank_data'):
             win_lose = []
     except:
         win_lose = []
-
 
 
 if hasattr(st.session_state, 'all_events'):
@@ -275,130 +272,10 @@ if hasattr(st.session_state, 'match_score'):
 
 # --- 소환사 info card 
 
-    # with st.container():
-    #     with elements("info"):
-    #         layout = [dashboard.Item("first_item", 0, 0, 3, 1),
-    #                     dashboard.Item("second_item", 3, 0, 2, 1),
-    #                     dashboard.Item("third_item", 5, 0, 5, 1)
-    #                     ]
-    #         with dashboard.Grid(layout):        
-                # mui.Card( # 소환사 정보
-                #     sx={
-                #         "display": "flex",
-                #         "background-color": "#0e1117"
-                #     },
-                #     children = [
-                #         mui.CardContent(
-                #             sx={"align-items": "center"},
-                #             children=[
-                #                 mui.Typography(
-                #                     "티어",
-                #                     variant="body3",
-                #                     color="text.secondary"
-                #                 ),
-                #                 mui.Typography(
-                #                     f"error", #{tier} {rank}
-                #                     sx= {"padding-bottom": "16px"}
-                #                 ),
-
-                #                 mui.Typography(
-                #                     "소환사",
-                #                     variant = "body2",
-                #                     color="text.secondary"
-                #                 ),                                        
-                #                 mui.Typography(
-                #                     f"{summoner_name}",
-                #                     variant="body2",
-                #                     sx={"font-size":"14px",
-                #                         }
-                #                 ),
-                #             ]
-                #         ),    
-                #         mui.CardContent(
-                #             mui.CardMedia( # 티어사진
-                #                     sx={"padding-left": 0, 
-                #                         "height": 100,
-                #                         "width": 120,
-                #                     },
-                #                 ),
-                #             )
-                #     ] , key="first_item" )
-                
-                # mui.Card(# 승률
-
-                #     nivo.Pie( 
-                #             data=win_lose,
-                #             margin={"top": 8, "right": 30, "bottom": 15, "left": 20 },
-                #             innerRadius={0.5},
-                #             padAngle={2},
-                #             activeOuterRadiusOffset={8},
-                #             colors=colors_list,                   
-                #             borderWidth={1},
-                #             borderColor={
-                #                 "from": 'color',
-                #                 "modifiers": [
-                #                     [
-                #                         'darker',
-                #                         0.2,
-                #                         'opacity',
-                #                         0.6
-                #                     ]
-                #                 ]
-                #             },
-                #             enableArcLinkLabels=False,
-                #             arcLinkLabelsSkipAngle={10},
-                #             arcLinkLabelsTextColor="white",
-                #             arcLinkLabelsThickness={0},
-                #             arcLinkLabelsColor={ "from": 'color', "modifiers": [] },
-                #             arcLabelsSkipAngle={10},
-                #             arcLabelsTextColor={ "theme": 'background' },
-                #             legends=[
-                #                 {
-                #                     "anchor": "bottom",
-                #                     "direction": "row",
-                #                     "translateX": 0,
-                #                     "translateY": 20,
-                #                     "itemWidth": 50,
-                #                     "itemsSpacing" : 5,
-                #                     "itemHeight": 20,
-                #                     "itemTextColor": "white",
-                #                     "symbolSize": 7,
-                #                     "symbolShape": "circle",
-                #                     "effects": [
-                #                         {
-                #                             "on": "hover",
-                #                             "style": {
-                #                                 "itemTextColor": "white"
-                #                             }
-                #                         }
-                #                     ]
-                #                 }
-                #             ],
-                #             theme={
-                #                 "background": "#0e1117",
-                #                 "textColor": "white",
-                #                 "tooltip": {
-                #                     "container": {
-                #                         "background": "#3a3c4a",
-                #                         "color": "white",
-                #                     }
-                #                 }
-                #             },
-                #         )
-                #         ,key="second_item")
-                # mui.Card(
-                #     mui.CardContent(
-                #         mui.Typography(
-                #             "신고누적",                                
-                #         )
-                #     )
-                # ,key="third_item")
-
         
 
     st.divider()
     
-
 # score
 if hasattr(st.session_state, 'score_3'): 
     score_3 = st.session_state.score_3
@@ -438,26 +315,29 @@ if hasattr(st.session_state, 'kda_dmg_log'):
 
 
     with st.container():
-
-        col1,col2 = st.columns([1,2])
-        with col1:
+        st.subheader("🎮 결과 내용 요약")
+        st.caption(f" {summoner_name} ({summoner_champion}/{summoner_position}) 소환사님의 {match_id} 경기 결과입니다. ")
+        col1,col2 = st.columns([1.2,2])
+        with col1: 
             if hasattr(st.session_state, 'radar_data'):
                 radar_data = st.session_state.radar_data
                 user = champion_info[champion_info['puuid']== puuid]['summonerName'].iloc[0]
                 with elements("info/radar"):
                     layout = [
-                              dashboard.Item("first_item", 0, 0, 2, 1.1),
-                              dashboard.Item("second_item", 2, 0, 2, 3),
-                              dashboard.Item("third_item", 4, 0, 2, 1)]
+                              dashboard.Item("first_item", 0, 0, 2, 1.1,isDraggable=True, isResizable=False ),
+                              dashboard.Item("second_item", 2, 0, 2, 3,isDraggable=True, isResizable=False ),
+                              dashboard.Item("third_item", 4, 0, 2, 1,isDraggable=True, isResizable=False ),]
+                    card_sx = {"background-color":"#0a0a0adb","borderRadius": "23px", "outline": "1px solid #31323b"}
                     with dashboard.Grid(layout):
-                        mui.Card( #챔피언,스펠,kda,게임결과,시간,탈주
+                        mui.Card( # 챔피언,스펠,kda,게임결과,시간,탈주여부, 아이템
                             children=[
-                                mui.CardContent( # champ/ spell
+                                mui.CardContent( 
                                     sx={
                                         "display": "flex",
                                         "align-items": "center",
+                                        "text-align":"center",
                                         "padding": "0 8px 0 8px",
-                                        "gap" : 1
+                                        "gap" : 2
                                         
                                     },
                                     children=[
@@ -469,13 +349,14 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/champion/{summoner_champion}.png)",  
                                             },
                                         ),
+
                                         mui.CardContent( # 스펠
                                             sx={
                                                 "align-items": "center",
                                                 "padding-top": "10px",
                                                 "padding-bottom" : "10px",
-                                                "padding-right" : "15px",
-                                                "padding-left" : "15px"
+                                                "padding-right" : "5px",
+                                                "padding-left" : "5px"
                                             },
                                             children=[
                                                 mui.CardMedia( # 스펠1
@@ -504,13 +385,10 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 ),
                                             ],
                                         ),
+                                        mui.Divider(orientation="vertical",sx={"height": "100px"}),
 
-                                        mui.CardContent( # KDA/시간/
-                                            sx={"text-align":"center",
-                                                "padding-bottom": "0px",
-                                                "padding-left": "8px",
-                                                "padding-right": "10px",
-                                                "padding-top": "0px",
+                                        mui.Box( # KDA/시간/
+                                            sx={
                                                 "border-top-width": "8px",
                                             },
                                             children=[
@@ -536,47 +414,48 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 )
                                             ]                               
                                         ),
-                                        mui.CardContent( # 게임결과 
-                                            sx={"text-align":"center",
-                                                "padding":"0 0 0 0",
-                                                },
+                                        mui.Divider(orientation="vertical",sx={"height": "100px"}),
+
+                                        mui.Box( # 게임결과 
+
                                             children=[
                                                 mui.Typography(                                                    
-                                                    "게임결과",
+                                                    "Results",
                                                     color="text.secondary",
-                                                    sx={"font-size":"14px"},
+                                                    sx={"font-size":"18px"},
                                                 ),
                                                 mui.Typography(
                                                     f"{game}",
                                                     variant="body3",
-                                                    sx={"font-size":"18px"}
+                                                    sx={"font-size":"20px"}
                                                 )
                                             ]
                                         ),
-                                        mui.CardContent( # 탈주여부
-                                            sx={"text-align":"center",
-                                                "padding-bottom": "0px",
-                                                },
-                                            children = [                                            
+                                        mui.Divider(orientation="vertical",sx={"height": "100px"}),
+
+                                        mui.Box( # 탈주여부
+                                            children = [
                                                 mui.Typography(
                                                     "AFK",
                                                     color="text.secondary",
-                                                    sx={'font-size':"24px"}
+                                                    sx={'font-size':"18px"}
                                                 ),
                                                 mui.Typography(
                                                     f"{afk}",
                                                     variant="body3",
-                                                    sx={"font-size":"16px",
-                                                        "color": "red" if afk == "10분 ▲" or afk == "5분 ▲" else "white",
+                                                    sx={"font-size":"20px",
+                                                        "color": "red" if afk == "10분▲" or afk == "5분▲" else "white",
                                                     }
                                                 )
                                             ]
-                                        )
+                                        ),
+
                                     ],
                                 ),
+                                mui.Divider(),
                                 mui.CardContent( # item 0~6
                                     sx={               
-                                        "padding-top":"0",                  
+                                        "padding-top":"10px",                  
                                         "display": "flex",
                                         "align-items": "center",
                                         "gap": 1,
@@ -585,8 +464,8 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         
                                         mui.CardMedia(
                                             sx={
-                                                "height": 40,
-                                                "width": 40,
+                                                "height": 45,
+                                                "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
                                                 "backgroundImage": f"url(https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-{summoner_position_low}.png)"
@@ -595,8 +474,8 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         ),                                            
                                         mui.CardMedia(
                                             sx={
-                                                "height": 40,
-                                                "width": 40,
+                                                "height": 45,
+                                                "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
                                                 **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item0}.png)"}
@@ -605,8 +484,8 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         ),
                                         mui.CardMedia(
                                             sx={
-                                                "height": 40,
-                                                "width": 40,
+                                                "height": 45,
+                                                "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
                                                 **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item1}.png)"}
@@ -615,8 +494,8 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         ),
                                         mui.CardMedia(
                                             sx={
-                                                "height": 40,
-                                                "width": 40,
+                                                "height": 45,
+                                                "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
                                                 **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item2}.png)"}
@@ -625,8 +504,8 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         ),
                                         mui.CardMedia(
                                             sx={
-                                                "height": 40,
-                                                "width": 40,
+                                                "height": 45,
+                                                "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
                                                 **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item3}.png)"}
@@ -635,8 +514,8 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         ),
                                         mui.CardMedia(
                                             sx={
-                                                "height": 40,
-                                                "width": 40,
+                                                "height": 45,
+                                                "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
                                                 **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item4}.png)"}
@@ -645,8 +524,8 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         ),
                                         mui.CardMedia(
                                             sx={
-                                                "height": 40,
-                                                "width": 40,
+                                                "height": 45,
+                                                "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
                                                 **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item5}.png)"}
@@ -666,7 +545,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                     ],
                                 ),
                             ],
-                            key="first_item",sx={"background-color":"black"}
+                            key="first_item",sx=card_sx
                         )
 
                         mui.Card( # radar charts
@@ -727,17 +606,18 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                 }
                             ),
                             
-                            ],key="second_item",sx={"background-color" : "#0a0a0adb"})
+                            ]
+                            ,key="second_item",sx=card_sx)
 
         with col2: 
             with elements("dashboard"):
 
                 layout = [
                     # Parameters: element_identifier, x_pos, y_pos, width, height, [isDraggable=False, moved=False (사이즈/이동 가능)]
-                    dashboard.Item("first_item", 0, 0, 2, 3), #isDraggable=False, moved=False 
-                    dashboard.Item("second_item", 2, 0, 3, 2),
-                    dashboard.Item("third_item", 0, 0, 2, 1),
-                    dashboard.Item("forth_item", 2, 2, 3, 2)]                
+                    dashboard.Item("first_item", 0, 0, 2.5, 3), #isDraggable=False, moved=False 
+                    dashboard.Item("second_item", 2.5, 0, 3.5, 2),
+                    dashboard.Item("third_item", 0, 0, 2.5, 1),
+                    dashboard.Item("forth_item", 2.5, 2, 3.5, 2)]                
 
                 with dashboard.Grid(layout):
                     mui.Card( # 스코어점수(참여도)
@@ -750,7 +630,6 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                     
                                     title = 'champimage'
                                         ),
-                               
                                 mui.CardContent( # 설명
                                     children=[  
                                         mui.Typography(
@@ -759,7 +638,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                             component="div"
                                         ),
                                         mui.Typography(
-                                            "유저의 게임 참여도를 포지션에 따라 가중치를 부여해서 측정합니다 10점을 기준으로 \
+                                            "유저의 게임 참여도를 포지션에 따라 가중치를 부여해서 측정합니다. 각 지표별 10점을 기준으로  \
                                             크게 공격성, 오브젝트, 서포터 점수로 나뉘어집니다. \
                                                 ",
                                             variant="body2",
@@ -769,12 +648,12 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                             
                                         )]
                                     ),
-                              
-                                mui.CardContent(# score
+                                
+                                mui.Box(# score
                                         sx={"display": "flex",
                                             "gap": "35px",
                                             "padding" : "0",
-                                            "font-size" : "20px",
+                                            "font-size" : "25px",
                                             "justify-content": "center",  
                                             },
 
@@ -800,25 +679,28 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                 mui.CardContent(# score_value
                                         sx={"display": "flex",
                                             "gap": "50px",
-                                            "padding": "0",
-                                            "justify-content": "center"
+                                            "padding": "10px",
+                                            "justify-content": "center",
                                             },
 
                                     children = [
                                         mui.Typography(
                                             f'{score_atk}',
-                                            sx={"font-size" : "24px"}
+                                            sx={"font-size" : "35px"}
                                         ),
                                         mui.Typography(                               
                                             f'{score_obj}',
-                                            sx={"font-size" : "24px"}
+                                            sx={"font-size" : "35px"}
                                         ),
                                         mui.Typography(
                                             f'{score_util}',
-                                            sx={"font-size" : "24px"}
+                                            sx={"font-size" : "35px"}
 
                                         )]
                                     ) ,
+                               
+                                mui.Divider(sx={"border-width":"1px"}),
+
                                 mui.CardContent(# total/ 팀 등수?
                                         sx={
                                             "text-align":"center"},
@@ -836,7 +718,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                     ]
                                 )                                                        
                                     
-                            ] , key="first_item",elevation=0, sx={"background-color" : "black", "background-size" : "cover" })
+                            ] , key="first_item",elevation=0, sx=card_sx)
                     
                     mui.Card( #skill
                             children=[      
@@ -867,20 +749,20 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                     sx={
                                         "display": "flex",
                                         "gap": "30px",  # 이미지 간격 조절
-                                        # "align-items": "center",  
+                                        "padding":0,
                                         "justify-content": "center",
                                         },
                                         
                                     children = [
                                         mui.CardMedia(
-                                            sx={ "height": 50, "width":50,
+                                            sx={ "height": 60, "width":60,
                                                 "borderRadius": '20%', 
                                                 "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/{q}.png)",
                                                 },
                                             title=f"Q:{kr_q}"
                                         ),
                                         mui.CardMedia(
-                                            sx={ "height": 50, "width":50,
+                                            sx={ "height": 60, "width":60,
                                                 "borderRadius": '20%', 
                                                 "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/{w}.png)",
                                                 },
@@ -888,14 +770,14 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                
                                         ),
                                         mui.CardMedia(
-                                            sx={ "height": 50, "width":50,
+                                            sx={ "height": 60, "width":60,
                                                 "borderRadius": '20%', 
                                                 "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/{e}.png)",
                                                 },
                                             title=f'E:{kr_e}'
                                         ),
                                         mui.CardMedia(
-                                            sx={ "height": 50, "width":50,
+                                            sx={ "height": 60, "width":60,
                                                 "borderRadius": '20%', 
                                                 "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/{r}.png)",
                                                 },
@@ -907,14 +789,14 @@ if hasattr(st.session_state, 'kda_dmg_log'):
 
                                     ] , 
                             
-                                        key="second_item",elevation=0, sx={"background-color" : "black","background-size" : "cover"})
+                                        key="second_item",elevation=0, sx=card_sx)
 
                     if win_lose:
 
                         mui.Card(# 승률
                             nivo.Pie( 
                                 data=win_lose,
-                                margin={"top": 8, "right": 30, "bottom": 15, "left": 20 },
+                                margin={"top": 8, "right": 30, "bottom": 20, "left": 20 },
                                 innerRadius={0.5},
                                 padAngle={2},
                                 activeOuterRadiusOffset={8},
@@ -971,47 +853,56 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                     }
                                 },
                             )
-                            ,key="third_item")
+                            ,key="third_item",sx=card_sx)
                     else:
-                        mui.Card('✔️ 유저의 아이디가 변경되었는지 확인해주세요',key="third_item",sx={"background-color":"black"})
+                        mui.Card(
+                                mui.Typography(
+                                        '(승률) 유저의 아이디가 변경되었거나, rank를 불러오는 api에 문제가 생겼습니다🥹',
+                                    sx={
+                                        "font-size": "14px"
+                                            },
+                                    color="text.secondary"                            
+                                )                            
+                            ,key="third_item",sx=card_sx)
 
 
                     if merged: #(nivo.bar)
-                        nivo.Bar(
-                        data=merged,
-                        keys=["count"],  # 막대 그래프의 그룹을 구분하는 속성
-                        indexBy="kr_spell",  # x축에 표시할 속성
+                        mui.Card(
+                            nivo.Bar(
+                            data=merged,
+                            keys=["count"],  # 막대 그래프의 그룹을 구분하는 속성
+                            indexBy="kr_spell",  # x축에 표시할 속성
 
-                        margin={"top": 20, "right": 30, "bottom": 70, "left": 30},
-                        padding={0.5},
+                            margin={"top": 20, "right": 30, "bottom": 70, "left": 30},
+                            padding={0.5},
 
-                        valueScale={ "type" : 'linear' },
-                        indexScale={ "type": 'band', "round": 'true'},
-                        borderRadius={5},
-                        colors={ 'scheme': 'category10' },
+                            valueScale={ "type" : 'linear' },
+                            indexScale={ "type": 'band', "round": 'true'},
+                            borderRadius={5},
+                            colors={ 'scheme': 'category10' },
 
-                        innerRadius=0.3,
-                        padAngle=0.7,
-                        activeOuterRadiusOffset=8,
-                        enableGridY= False,
-                        axisLeft=None,  # Y축 단위 제거
-                
-                        labelSkipWidth={2},
-                        labelSkipHeight={36},
-                        axisBottom={"tickSize": 0,
-                                    "tickRotation": 90,
-                                    },
-                        theme={
-                                "background": "black",
-                                "textColor": "white",
-                                "tooltip": {
-                                    "container": {
-                                        "background": "#3a3c4a",
-                                        "color": "white",
+                            innerRadius=0.3,
+                            padAngle=0.7,
+                            activeOuterRadiusOffset=8,
+                            enableGridY= False,
+                            axisLeft=None,  # Y축 단위 제거
+                    
+                            labelSkipWidth={2},
+                            labelSkipHeight={36},
+                            axisBottom={"tickSize": 0,
+                                        "tickRotation": 90,
+                                        },
+                            theme={
+                                    "background": "black",
+                                    "textColor": "white",
+                                    "tooltip": {
+                                        "container": {
+                                            "background": "#3a3c4a",
+                                            "color": "white",
+                                        }
                                     }
-                                }
-                            }                         
-                        , key = 'forth_item',sx={"background-color" : "black","background-size" : "cover" })
+                                }                         
+                            ),key = 'forth_item',sx=card_sx)
                     else:
                         mui.Card(
                                mui.CardContent(
@@ -1036,9 +927,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                             variant="body3",
                                             color="text.secondary"                                        
                                             )                                      
-                                        )  ,key='forth_item', sx={"background-color":"black", "text-align":"center"})
-
-
+                                        )  ,key='forth_item', sx= card_sx)
 
 
     st.divider()    
