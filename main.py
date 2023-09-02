@@ -25,7 +25,7 @@ pd.set_option('mode.chained_assignment',  None)
 st.set_page_config(layout="wide",page_title = "League Of Legends report dash board")
 
 
-with open( "main_css.css" ) as css:
+with open( "css/main_css.css" ) as css:
     st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
 
 
