@@ -59,10 +59,7 @@
 > ![image](https://velog.velcdn.com/images/liveandletlive/post/626edde4-c39e-420a-b7eb-6dbea2b67fc9/image.png)
 
 
----
-
 # 3. 사용기술
----
 * Python : Data Preprocessing, EDA,
 * Streamlit : visualize, app
 * API : RIOT API( RIOT 에서 제공하는 OPEN API를 이용하였습니다.)
@@ -87,7 +84,6 @@
 ```
 
 # 5. 사용방법
-
 ![image](https://github.com/KGochae/LeagueOfLegends-dash/assets/86241587/f152ee3e-db0a-4966-9389-7e24d9bd0ca6)
 
 - [Riot Developer Portal](https://developer.riotgames.com/) 에 들어가서 로그인 후, api_key를 준비합니다!
