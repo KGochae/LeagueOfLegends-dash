@@ -20,7 +20,6 @@
 * 위 대시보드는 신고가 접수되었을 때, 그런 부분을 빠르게 파악하기 위해 만들어 본 유저 대시보드입니다.
 
 # 2.신고사유 4가지 주제
----
 ## 📊 유저의 참여도 및 스킬로그
 - 포지션별 중요변수들을 선정한뒤 가중치를 부여해서 유저의 참여도를 계산했습니다. (Radar chart)
 - 크게 **ATTACK, OBJECT, UTILITY** 부분으로 나뉘어서 점수를 세분화 하고 해당 경기의 랭크를 구합니다. (지표당 10점 만점, 총 합 30점)
@@ -60,12 +59,14 @@
 
 
 # 3. 사용기술
+
 * Python : Data Preprocessing, EDA,
 * Streamlit : visualize, app
 * API : RIOT API( RIOT 에서 제공하는 OPEN API를 이용하였습니다.)
 
 
 # 4. 디렉토리 
+
 ```bash
 ├── .streamlit
 | └── config.toml
