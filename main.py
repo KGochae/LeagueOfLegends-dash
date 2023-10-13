@@ -40,7 +40,9 @@ st.caption('신고된 경기의 데이터를 기반으로 유저의 제제여부
 with st.sidebar:
     with st.form(key ='searchform'):
         summoner_name = st.text_input("search_summoner")
-        api_key = st.text_input("api_key")
+        api_key = st.text_input("api_key",
+                                type = "password"
+                               )
         st.markdown("---")
         st.write('유저 신고 사유')
         clue = st.checkbox(label="All")
