@@ -1095,7 +1095,7 @@ with st.container():
     with col1:
         if hasattr(st.session_state, 'html'):
             html = st.session_state.html
-            st.subheader("match animation")
+            st.subheader("Match animation")
             st.caption('해당 경기의 유저별 이동경로와 death 좌표입니다.')
             components.html(html, width=700, height=600)
 
@@ -1112,7 +1112,7 @@ with st.container():
             lane_counts = lane_counts.reindex(x_range, fill_value=0)
 
             # 슬라이더 추가
-            st.subheader('Position Log')
+            st.subheader('Position log')
             st.caption(f'{summoner_name}({summoner_position}/{summoner_champion}) 소환사가 머물었던 라인 비율입니다. \
                         시간별로 어떤 라인에 머물렀는지 확인할 수 있습니다. ')
             
