@@ -1186,7 +1186,7 @@ if hasattr(st.session_state, 'damage_counter'):
 
     with st.container():
 
-        st.header(" DEATH Log / 딜교환 ")
+        st.header(" Death log - 딜교환 ")
         st.markdown(f'> **{summoner_name} ({summoner_position}/ {summoner_champion})** 소환사 의 죽은 횟수는 팀데스**{sum_team_death}**번중 **{d}번** 입니다.')
         st.caption('15분전후로 해당 유저의 받은 피해량과 해당 유저가 딜교환을 어떻게 했는지 확인할 수 있습니다. \
                    또한 소환사가 죽었을 시 챔피언 이외에 타워, 몬스터 같은 오브젝트들에게 고의적으로 죽었을 경우 확인이 가능합니다.\
