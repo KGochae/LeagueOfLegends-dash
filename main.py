@@ -1,9 +1,3 @@
-# api_key
-# from dotenv import load_dotenv
-# import os
-# load_dotenv()
-# api_key = os.getenv('api_key')
-
 # chart 
 import streamlit as st
 from streamlit_elements import dashboard
@@ -29,7 +23,7 @@ with open( "css/main_css.css" ) as css:
     st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
 
 # Create API client.
-api_key = st.secrets.RIOTAPI.api_key
+# api_key = st.secrets.RIOTAPI.api_key
 
 mpl.rcParams['animation.embed_limit'] = 40 # animation limit MB
 
@@ -42,9 +36,9 @@ st.caption('신고된 경기의 데이터를 기반으로 유저의 제제여부
 with st.sidebar:
     with st.form(key ='searchform'):
         summoner_name = st.text_input("search_summoner")
-        # api_key = st.text_input("api_key",
-        #                         type = "password"
-        #                        )        
+        api_key = st.text_input("api_key",
+                                type = "password"
+                               )        
         st.markdown("---")
         st.write('유저 신고 사유')
         clue = st.checkbox(label="All")
