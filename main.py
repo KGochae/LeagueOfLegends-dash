@@ -19,17 +19,17 @@ from riot import get_logs_all, radar_chart, get_item_gold, get_damage_logs, scor
 import pandas as pd
 import streamlit.components.v1 as components
 import matplotlib as mpl
+with open( "main_css.css" ) as css:
+    st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
+
+# Create API client.
+api_key = st.secrets.RIOTAPI.api_key
 
 # -------------------------------------------- main -----------------------------------------------------
 pd.set_option('mode.chained_assignment',  None)
 st.set_page_config(layout="wide",page_title = "League Of Legends report dash board")
 
-
-with open( "css/main_css.css" ) as css:
-    st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
-
-
-mpl.rcParams['animation.embed_limit'] = 40 # 단위: MB
+mpl.rcParams['animation.embed_limit'] = 40 # animation limit (MB)
 
 
 st.title('League Of Legends')
@@ -40,9 +40,7 @@ st.caption('신고된 경기의 데이터를 기반으로 유저의 제제여부
 with st.sidebar:
     with st.form(key ='searchform'):
         summoner_name = st.text_input("search_summoner")
-        api_key = st.text_input("api_key",
-                                type = "password"
-                               )
+        # api_key = st.text_input("api_key")
         st.markdown("---")
         st.write('유저 신고 사유')
         clue = st.checkbox(label="All")
@@ -52,7 +50,6 @@ with st.sidebar:
         st.checkbox(label= "핵 사용 의심", value=clue)
         st.text_area("자세한 내용을 적어주세요")
         submit_search = st.form_submit_button()
-
 
 
 if submit_search :
