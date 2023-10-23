@@ -6,7 +6,7 @@
 * (2023-10) APIkey를 발급받지 않아도 이용할 수 있도록 변경중입니다..
 
 # LeagueOfLegends dashboard
-* WEBlink:[LeagueOfLegends-dashboard](https://leagueoflegends-dash-ytcwvappksi2kdzg8jtjynj.streamlit.app/)
+* ### 구경하기 [LeagueOfLegends-dashboard🎮](https://leagueoflegends-dash-ytcwvappksi2kdzg8jtjynj.streamlit.app/)
 
 # 1.프로젝트 소개 
 
