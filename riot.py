@@ -17,6 +17,8 @@ from PIL import Image, ImageDraw,ImageEnhance
 from matplotlib.animation import FuncAnimation
 from sklearn.preprocessing import MinMaxScaler
 
+# Create API client.
+api_key  = st.secrets.RIOTAPI.api_key
 
 # 가장 최근경기 가져오기
 
