@@ -27,10 +27,7 @@ pd.set_option('mode.chained_assignment',  None)
 st.set_page_config(layout="wide",page_title = "League Of Legends report dash board")
 
 
-with open( "main_css.css" ) as css:
-    st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
-
-# # Create API client.
+# Create API client.
 # api_key = st.secrets.RIOTAPI.api_key
 
 mpl.rcParams['animation.embed_limit'] = 40 # animation limit MB
