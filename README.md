@@ -3,8 +3,7 @@
 * ~(2023-07-31) rank url 에 문제가 생겼습니다. (최근 승/패 여부와 rank 에 관한 정보)~ 
 * (2023-08-08) 잠시 보안 문제로 APIkey 를 직접 발급해야지 이용할 수 있도록 변경했습니다.🥹
 * (2023-08-20) rank url 해결
-* (2023-10-23) APIkey를 발급받지 않아도 이용할 수 있도록 변경했습니다.(할당량 제한)
-
+* (2023-10) APIkey를 발급받지 않아도 이용할 수 있도록 변경중입니다..
 
 # LeagueOfLegends dashboard
 * WEBlink:[LeagueOfLegends-dashboard](https://leagueoflegends-dash-ytcwvappksi2kdzg8jtjynj.streamlit.app/)
