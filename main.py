@@ -19,7 +19,7 @@ from riot import get_logs_all, radar_chart, get_item_gold, get_damage_logs, scor
 import pandas as pd
 import streamlit.components.v1 as components
 import matplotlib as mpl
-with open( "main_css.css" ) as css:
+with open( "css/main_css.css" ) as css:
     st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
 
 # -------------------------------------------- main -----------------------------------------------------
