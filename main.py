@@ -617,10 +617,10 @@ if hasattr(st.session_state, 'kda_dmg_log'):
 
                 layout = [
                     # Parameters: element_identifier, x_pos, y_pos, width, height, [isDraggable=False, moved=False (사이즈/이동 가능)]
-                    dashboard.Item("first_item", 0, 0, 2.5, 3), #isDraggable=False, moved=False 
-                    dashboard.Item("second_item", 2.5, 0, 3.5, 2),
-                    dashboard.Item("third_item", 0, 0, 2.5, 1),
-                    dashboard.Item("forth_item", 2.5, 2, 3.5, 2)]                
+                    dashboard.Item("first_item", 0, 0, 2.5, 3, isDraggable=True, isResizable=False), #isDraggable=False, moved=False 
+                    dashboard.Item("second_item", 2.5, 0, 3.5, 2, isDraggable=True, isResizable=False),
+                    dashboard.Item("third_item", 0, 0, 2.5, 1, isDraggable=True, isResizable=False),
+                    dashboard.Item("forth_item", 2.5, 2, 3.5, 2, isDraggable=True, isResizable=False)]                
 
                 with dashboard.Grid(layout):
                     mui.Card( # 스코어점수(참여도)
