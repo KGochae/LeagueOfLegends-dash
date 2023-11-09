@@ -59,7 +59,7 @@ if submit_search :
         all_events, position_logs = get_events(match_data_log)
         
         radar_data = radar_chart(match_info)
-        total_score, match_score, normalization_df = score_weighted(match_info)
+        total_score, match_score = score_weighted(match_info)
         score_3  = score3(match_score)
 
         item_gold = get_item_gold()
