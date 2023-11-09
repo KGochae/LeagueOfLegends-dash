@@ -246,70 +246,6 @@ def get_damage_logs (death_damage,kill_damage,assist_damage):
     return death_damage_log, counter_damage_log, damage_counter, kill_damage_log, assist_damage_log, kda_dmg_log
 
 
-# 챔피언이 죽은 위치 
-def death_map (champion_info,puuid,death_damage):
-
-    summoner_champion = champion_info.loc[champion_info['puuid'] == puuid, 'championName'].iloc[0]
-    champion_url = f"https://ddragon.leagueoflegends.com/cdn/13.9.1/img/champion/{summoner_champion}.png"
-    response = requests.get(champion_url)
-    champ_img = Image.open(BytesIO(response.content))
-
-
-    death_damage_15 = death_damage[death_damage['timestamp'] <= 900000] 
-    death_damage_16 = death_damage[death_damage['timestamp'] > 900000]
-
-    death_fig, ax = plt.subplots(figsize=(8,8), tight_layout=True)
-    ax.set_xlim(0, 15000)
-    ax.set_ylim(0, 15000)
-    ax.axis('off')
-
-    # Add image of map
-    map_path = "img/minimap.png"  # 로컬 이미지 파일 경로
-    img = Image.open(map_path)
-    ax.imshow(img, extent=[0, 15000, 0, 15000])
-
-    mask = Image.new("L", champ_img.size, 0)
-    draw = ImageDraw.Draw(mask)
-    draw.ellipse((0, 0) + champ_img.size, fill=255)
-    champ_img.putalpha(mask)
-    # 크기 조절
-    champ_img_L = champ_img.resize((100, 100))
-    
-    enhancer = ImageEnhance.Color(champ_img_L)
-    champ_img_L = enhancer.enhance(0)
-    # Add the image to the plot
-    x_values = death_damage_15['position'].apply(lambda pos: pos['x'])
-    y_values = death_damage_15['position'].apply(lambda pos: pos['y'])
-
-    for x, y in zip(x_values, y_values):
-        ax.imshow(champ_img_L, extent=[x - 800, x + 800, y - 800, y + 800])
-    
-    death_fig2, ax2 = plt.subplots(figsize=(8,8), tight_layout=True)
-    ax2.set_xlim(0, 15000)
-    ax2.set_ylim(0, 15000)
-    ax2.axis('off')
-
-    # Add image of map
-    map_path = "img/minimap.png"  # 로컬 이미지 파일 경로
-    img = Image.open(map_path)
-    ax2.imshow(img, extent=[0, 15000, 0, 15000])
-
-    mask = Image.new("L", champ_img.size, 0)
-    draw = ImageDraw.Draw(mask)
-    draw.ellipse((0, 0) + champ_img.size, fill=255)
-    champ_img.putalpha(mask)
-    # 크기 조절
-    champ_img_L = champ_img.resize((100, 100))
-
-    enhancer = ImageEnhance.Color(champ_img_L)
-    champ_img_L = enhancer.enhance(0)
-    # Add the image to the plot
-    x_values = death_damage_16['position'].apply(lambda pos: pos['x'])
-    y_values = death_damage_16['position'].apply(lambda pos: pos['y'])
-    for x, y in zip(x_values, y_values):
-        ax2.imshow(champ_img_L, extent=[x - 800, x + 800, y - 800, y + 800])
-
-    return death_fig, death_fig2
 
 # 챔피언의 이동경로
 def create_animation(participant_ids,puuid,champion_info, logs_all):
@@ -615,14 +551,7 @@ def score_weighted(match_info):
     match_info_score['rank'] = match_score['rank']  # 새로운 데이터프레임에 'rank' 열 추가
     
 
-#---- MIN_MAX
-
-    
-    normalization_df = (match_score - match_score.min(numeric_only=True))/(match_score.max(numeric_only=True) - match_score.min(numeric_only=True))
-    normalization_df['championName'] = match_score['championName']
-
-
-    return total_score,match_score, normalization_df
+    return total_score,match_score
 
 
 
