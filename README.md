@@ -10,8 +10,7 @@
 
 # 1.프로젝트 소개 
 
-> * [📑요약자료 다운 받기](https://github.com/KGochae/LeagueOfLegends-dash/blob/main/portfolio_pdf/%EB%A6%AC%EA%B7%B8%EC%98%A4%EB%B8%8C%EB%A0%88%EC%A0%84%EB%93%9C_%EC%8B%A0%EA%B3%A0%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C_%EC%9A%94%EC%95%BD.pdf) / [(VELOG) 좀 더 자세한 내용](https://velog.io/@liveandletlive/series/RIOT-API)
-
+> * [📑요약자료 보기](https://github.com/KGochae/LeagueOfLegends-dash/blob/main/summary_pdf/%EB%A6%AC%EA%B7%B8%EC%98%A4%EB%B8%8C%EB%A0%88%EC%A0%84%EB%93%9C_%EC%8B%A0%EA%B3%A0%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C_%EC%B5%9C%EC%A2%85.pdf) / [(VELOG) 좀 더 자세한 내용](https://velog.io/@liveandletlive/series/RIOT-API)
 * 대표 AOS 게임 리그 오브 레전드 게임은 몇년동안 사랑받는 만큼 '고의적으로 게임을 망치는 유저들' 흔히 말하는 '트롤' 문제도 꾸준히 이어지고 있습니다.
 * 현재 리그 오브 레전드에서 대표적인 신고사유는 아래와 같습니다.
 > ![image](https://github.com/KGochae/LeagueOfLegends-dash/assets/86241587/33069244-f364-47fb-9d1b-02c4b8859f50)
