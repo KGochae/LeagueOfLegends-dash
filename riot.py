@@ -264,7 +264,7 @@ def create_animation(participant_ids,puuid,champion_info, logs_all):
     champion_images = {}
     for idx, champ in champion_info.iterrows():
         champion_name = champ['championName']
-        champion_url = f"https://ddragon.leagueoflegends.com/cdn/13.9.1/img/champion/{champion_name}.png"
+        champion_url = f"https://ddragon.leagueoflegends.com/cdn/13.22.1/img/champion/{champion_name}.png"
         response = requests.get(champion_url)
         img = Image.open(BytesIO(response.content))
         champion_images[champion_name] = img
