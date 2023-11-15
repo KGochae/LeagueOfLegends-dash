@@ -385,7 +385,7 @@ def radar_chart(match_info):
 
 # item에 대한 정보  
 def get_item_gold():
-    item_gold = 'https://ddragon.leagueoflegends.com/cdn/13.8.1/data/ko_KR/item.json'
+    item_gold = 'https://ddragon.leagueoflegends.com/cdn/13.22.1/data/ko_KR/item.json'
     response = requests.get(item_gold)
     json_data = response.json()
 
@@ -411,7 +411,7 @@ def get_spell_info(champion_info, puuid):
     
     summoner_champion = champion_info.loc[champion_info['puuid'] == puuid, 'championName'].iloc[0]
 
-    url = f'https://ddragon.leagueoflegends.com/cdn/13.8.1/data/ko_KR/champion/{summoner_champion}.json'
+    url = f'https://ddragon.leagueoflegends.com/cdn/13.22.1/data/ko_KR/champion/{summoner_champion}.json'
     response = requests.get(url)
     champion = response.json()
 
