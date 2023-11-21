@@ -438,14 +438,14 @@ def get_spell_info(champion_info, puuid):
 
 # 포지션별 점수 
 def score_weighted(match_info):
+    
     # 가중치를 부여한 점수 계산 함수 정의, MID/BOTTOM/TOP
-   
     weights = {
         # ----- 공격성 지표 비중 40%
-                'totalDamageDealtToChampions': 0.15, 
+                'totalDamageDealtToChampions': 0.2, 
                 'soloKills': 0.15,    
                 'multikills': 0.05, 
-                'kda': 0.05, 
+                'kda': 0.1, 
 
         # ----- 오브젝트 지표 비중 30% 
                 'goldEarned':0.05,
@@ -462,23 +462,23 @@ def score_weighted(match_info):
                 'effectiveHealAndShielding':0.01 
            } 
  
-    # jungle
+    # JUNGLE
     weights_JUNGLE = {
-        # ----- 공격성 지표 비중 40%
+        # ----- 공격성 지표 비중 30%
                 'totalDamageDealtToChampions': 0.15, 
-                'soloKills': 0.05,  
+                'soloKills': 0.1,  
                 'multikills': 0.05, 
-                'kda': 0.15, 
+                'kda': 0.1, 
 
         # ----- 오브젝트 지표 비중 40%
                 'damageDealtToTurrets': 0.1,
                 'damageDealtToObjectives': 0.1, 
                 'dragonTakedowns':0.05,
                 'baronTakedowns':0.05,
-                'totalCS': 0.1,  
+                'totalCS': 0.05,  
                 'goldEarned':0.05,
 
-        # ----- 보조/CC/서포터 지표 비중 20%
+        # ----- 보조/CC/서포터 지표 비중 30%
                 'damageSelfMitigated': 0.05,
                 'visionScore': 0.1,  
                 'enemyChampionImmobilizations':0.05 , 
@@ -487,7 +487,7 @@ def score_weighted(match_info):
             } # (0.01)'effectiveHealAndShielding': 0.01
     
  
-    # 4 : 6
+    # UTILITY
     weights_utility = {
         # ----- 공격성 지표 비중 20%
                 'kda': 0.15,  
@@ -504,7 +504,7 @@ def score_weighted(match_info):
                 'baronTakedowns':0.001,
 
         # ----- 보조/CC/서포터 지표 비중 65%
-                'visionScore': 0.2,  #                
+                'visionScore': 0.2,                  
                 'effectiveHealAndShielding' : 0.2,
                 'enemyChampionImmobilizations': 0.2,
                 'damageSelfMitigated': 0.05, 
