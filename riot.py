@@ -18,6 +18,9 @@ from PIL import Image, ImageDraw,ImageEnhance
 from matplotlib.animation import FuncAnimation
 from sklearn.preprocessing import MinMaxScaler
 
+# 패치 버전
+version = '13.24.1'
+
 # Create API client.
 # api_key  = st.secrets.RIOTAPI.api_key
 
@@ -264,7 +267,7 @@ def create_animation(participant_ids,puuid,champion_info, logs_all):
     champion_images = {}
     for idx, champ in champion_info.iterrows():
         champion_name = champ['championName']
-        champion_url = f"https://ddragon.leagueoflegends.com/cdn/13.22.1/img/champion/{champion_name}.png"
+        champion_url = f"https://ddragon.leagueoflegends.com/cdn/{version}/img/champion/{champion_name}.png"
         response = requests.get(champion_url)
         img = Image.open(BytesIO(response.content))
         champion_images[champion_name] = img
@@ -385,7 +388,7 @@ def radar_chart(match_info):
 
 # item에 대한 정보  
 def get_item_gold():
-    item_gold = 'https://ddragon.leagueoflegends.com/cdn/13.22.1/data/ko_KR/item.json'
+    item_gold = f'https://ddragon.leagueoflegends.com/cdn/{version}/data/ko_KR/item.json'
     response = requests.get(item_gold)
     json_data = response.json()
 
@@ -411,7 +414,7 @@ def get_spell_info(champion_info, puuid):
     
     summoner_champion = champion_info.loc[champion_info['puuid'] == puuid, 'championName'].iloc[0]
 
-    url = f'https://ddragon.leagueoflegends.com/cdn/13.22.1/data/ko_KR/champion/{summoner_champion}.json'
+    url = f'https://ddragon.leagueoflegends.com/cdn/{version}/data/ko_KR/champion/{summoner_champion}.json'
     response = requests.get(url)
     champion = response.json()
 
