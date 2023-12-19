@@ -349,7 +349,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 "height": 80,
                                                 "width": 80,
                                                 "borderRadius": "10%",
-                                                "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/champion/{summoner_champion}.png)",  
+                                                "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/champion/{summoner_champion}.png)",  
                                             },
                                         ),
 
@@ -367,7 +367,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                         "height": 40,
                                                         "width": 40,
                                                         "borderRadius": "10%",
-                                                        "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.8.1/img/spell/{spell1}.png)",
+                                                        "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/spell/{spell1}.png)",
                                                         "align-self": "center",
                                                         "outline": "1px solid #31323b",
 
@@ -379,7 +379,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                         "height": 40,
                                                         "width": 40,
                                                         "borderRadius": "10%",
-                                                        "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.8.1/img/spell/{spell2}.png)",
+                                                        "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/spell/{spell2}.png)",
                                                         "align-self": "center",
                                                         "outline": "1px solid #31323b",
 
@@ -481,7 +481,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
-                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item0}.png)"}
+                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/item/{item0}.png)"}
                                                     if item0 != 0 else{}),
                                             },
                                         ),
@@ -491,7 +491,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
-                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item1}.png)"}
+                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/item/{item1}.png)"}
                                                     if item1 != 0 else{}),
                                             },
                                         ),
@@ -501,7 +501,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
-                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item2}.png)"}
+                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/item/{item2}.png)"}
                                                     if item2 != 0 else{}),
                                             },
                                         ),
@@ -511,7 +511,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
-                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item3}.png)"}
+                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/item/{item3}.png)"}
                                                     if item3 != 0 else{}),
                                             },
                                         ),
@@ -521,7 +521,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
-                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item4}.png)"}
+                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/item/{item4}.png)"}
                                                     if item4 != 0 else{}),
                                             },
                                         ),
@@ -531,7 +531,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 "width": 45,
                                                 "borderRadius": "10%",
                                                 "outline": "1px solid #31323b",
-                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item5}.png)"}
+                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/item/{item5}.png)"}
                                                     if item5 != 0 else{}),
                                             },
                                         ),                                   
@@ -541,7 +541,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                 "width": 30,
                                                 "borderRadius": "30%",
                                                 "outline": "1px solid #31323b",
-                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/{item6}.png)"}
+                                                **({"backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/item/{item6}.png)"}
                                                     if item6 != 0 else{}),
                                             },
                                         ),
@@ -760,14 +760,14 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         mui.CardMedia(
                                             sx={ "height": 60, "width":60,
                                                 "borderRadius": '20%', 
-                                                "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/{q}.png)",
+                                                "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/spell/{q}.png)",
                                                 },
                                             title=f"Q:{kr_q}"
                                         ),
                                         mui.CardMedia(
                                             sx={ "height": 60, "width":60,
                                                 "borderRadius": '20%', 
-                                                "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/{w}.png)",
+                                                "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/spell/{w}.png)",
                                                 },
                                             title=f"W:{kr_w}"
                                                
@@ -775,14 +775,14 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         mui.CardMedia(
                                             sx={ "height": 60, "width":60,
                                                 "borderRadius": '20%', 
-                                                "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/{e}.png)",
+                                                "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/spell/{e}.png)",
                                                 },
                                             title=f'E:{kr_e}'
                                         ),
                                         mui.CardMedia(
                                             sx={ "height": 60, "width":60,
                                                 "borderRadius": '20%', 
-                                                "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/{r}.png)",
+                                                "backgroundImage": f"url(https://ddragon.leagueoflegends.com/cdn/{version}/img/spell/{r}.png)",
                                                 },
                                             title=f'R:{kr_r}'
                                         ),
