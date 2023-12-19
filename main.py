@@ -26,6 +26,7 @@ with open( "css/main_css.css" ) as css:
 # api_key = st.secrets.RIOTAPI.api_key
 
 mpl.rcParams['animation.embed_limit'] = 40 # animation limit MB
+version = '13.24.1'
 
 
 st.title('League Of Legends')
