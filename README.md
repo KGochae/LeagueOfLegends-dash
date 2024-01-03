@@ -1,9 +1,8 @@
 ### issue
 * ~(2023-07-31) rank url 에 문제가 생겼습니다. (최근 승/패 여부와 rank 에 관한 정보)~ 
 * (2023-08-08) 잠시 보안 문제로 APIkey 를 직접 발급해야지 이용할 수 있도록 변경했습니다.🥹
-* (2023-08-20) rank url 해결
-* (2023-11) 11월 21일 이후부터는 소환사 이름이 삭제되고, 모든 라이엇 게임에서 Riot ID가 사용됩니다. 이에 대한 코드 수정필요
-* ~(2023-11-14)현재 match animation의 챔피언 image를 불러오는데 문제가 생겼습니다. (해결)~
+* (2023-11) 11월 21일 이후부터는 소환사 이름이 삭제되고, 모든 라이엇 게임에서 Riot ID가 사용됩니다. 
+* (14.1)	2024년 1월 10일 수요일 라이엇 패치 예정
 
 # LeagueOfLegends dashboard
 * ### 구경하기 [LeagueOfLegends-dashboard🎮](https://leagueoflegends-dash-ytcwvappksi2kdzg8jtjynj.streamlit.app/)
