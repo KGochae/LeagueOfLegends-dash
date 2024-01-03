@@ -1376,7 +1376,7 @@ if hasattr(st.session_state, 'damage_counter'):
                                 marker_color.append('#80c4f9')
     
                         fig = px.bar(total, x='total', y='name', color='name', orientation='h',
-                                    title=f'{summoner_champion} vs 받은피해량',color_discrete_sequence= marker_color)
+                                    title=f'{summoner_champion}의 딜교환 vs 챔피언별 받은피해량',color_discrete_sequence= marker_color)
                         
                         st.plotly_chart(fig,use_container_width=True)
                     
