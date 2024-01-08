@@ -653,55 +653,87 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         )]
                                     ),
                                 
-                                mui.Box(# score
-                                        sx={"display": "flex",
-                                            "gap": "35px",
-                                            "padding" : "0",
-                                            "font-size" : "25px",
-                                            "justify-content": "center",  
+                                mui.Box( # score
+                                    sx={
+                                        "display": "flex",
+                                        "gap": "30px",
+                                        "padding": "0",
+                                        "justify-content": "center",
+                                    },
+                                    children=[
+                                        mui.Box(
+                                            sx={
+                                                "width" : "70px",
+                                                "display": "flex",
+                                                "flexDirection": "column",
+                                                "alignItems": "center",
                                             },
-
-                                    children=[  
-                                        mui.Typography(
-                                            " Attack ",
-                                            variant="body3",
-                                            color="text.secondary"
+                                            children=[
+                                                mui.CardMedia(
+                                                    sx={
+                                                        "height": 60,
+                                                        "width": 60,
+                                                        "borderRadius": "10%",
+                                                        "backgroundImage": f"url(https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png)"
+                                                    },
+                                                    title=f'ATTACK_score'
+                                                ),
+                                                mui.Typography(
+                                                    f'{score_atk}',
+                                                    sx={"font-size": "30px"}
+                                                )
+                                            ]
                                         ),
 
-                                        mui.Typography(
-                                            " Object ",
-                                            variant="body3",
-                                            color="text.secondary"
-                                        ),
-                                        mui.Typography(
-                                            " Utility ",
-                                            variant="body3",
-                                            color="text.secondary"
-                                        )]
-                                    ),
-
-                                mui.CardContent(# score_value
-                                        sx={"display": "flex",
-                                            "gap": "50px",
-                                            "padding": "10px",
-                                            "justify-content": "center",
+                                        mui.Box(
+                                            sx={
+                                                "width" : "70px",
+                                                "display": "flex",
+                                                "flexDirection": "column",
+                                                "alignItems": "center",
                                             },
-
-                                    children = [
-                                        mui.Typography(
-                                            f'{score_atk}',
-                                            sx={"font-size" : "35px"}
+                                            children=[
+                                                mui.CardMedia(
+                                                    sx={
+                                                        "height": 60,
+                                                        "width": 60,
+                                                        "borderRadius": "10%",
+                                                        "backgroundImage": f"url(https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png)"
+                                                    },
+                                                    title=f'OBJECT_score'
+                                                ),
+                                                mui.Typography(
+                                                    f'{score_obj}',
+                                                    sx={"font-size": "30px"}
+                                                )
+                                            ]
                                         ),
-                                        mui.Typography(                               
-                                            f'{score_obj}',
-                                            sx={"font-size" : "35px"}
-                                        ),
-                                        mui.Typography(
-                                            f'{score_util}',
-                                            sx={"font-size" : "35px"}
 
-                                        )]
-                                    ) ,
+                                        mui.Box(
+                                            score_sx={
+                                                "width" : "70px",
+                                                "display": "flex",
+                                                "flexDirection": "column",
+                                                "alignItems": "center",
+                                            },
+                                            children=[
+                                                mui.CardMedia(
+                                                    sx={
+                                                        "height": 60,
+                                                        "width": 60,
+                                                        "borderRadius": "10%",
+                                                        "backgroundImage": f"url(https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png)"
+                                                    },
+                                                    title=f'UTILITY_score'
+                                                ),
+                                                mui.Typography(
+                                                    f'{score_util}',
+                                                    sx={"font-size": "30px"}
+                                                )
+                                            ]
+                                        )
+                                    ]
+                                ),
                                
                                 mui.Divider(sx={"border-width":"1px"}),
 
