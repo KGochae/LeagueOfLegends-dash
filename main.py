@@ -710,7 +710,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                         ),
 
                                         mui.Box(
-                                            score_sx={
+                                            sx={
                                                 "width" : "70px",
                                                 "display": "flex",
                                                 "flexDirection": "column",
