@@ -451,7 +451,7 @@ if hasattr(st.session_state, 'kda_dmg_log'):
                                                         "color": "red" if afk == "10분▲" or afk == "5분▲" else "white",
                                                     }
                                                 )
-                                            ]
+                                            ], sx={'padding-left' : '10px'}
                                         ),
 
                                     ],
