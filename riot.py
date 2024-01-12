@@ -19,7 +19,7 @@ from matplotlib.animation import FuncAnimation
 from sklearn.preprocessing import MinMaxScaler
 
 # 패치 버전
-# version = '13.24.1'
+# version = '14.1.1'
 
 # Create API client.
 # api_key  = st.secrets.RIOTAPI.api_key
