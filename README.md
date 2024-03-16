@@ -5,8 +5,8 @@
 * (14.1)	2024년 1월 10일 수요일 라이엇 패치 예정
 
 # LeagueOfLegends dashboard
-* ### 구경하기 [LeagueOfLegends-dashboard🎮](https://leagueoflegends-dash-ytcwvappksi2kdzg8jtjynj.streamlit.app/)
-
+## 대시보드 구경하기 [LeagueOfLegends-dashboard🎮](https://leagueoflegends-dash-ytcwvappksi2kdzg8jtjynj.streamlit.app/)
+(RIOT Api가 필요합니다)
 # 1.프로젝트 소개 
 
 > * [📑요약자료 보기](https://github.com/KGochae/LeagueOfLegends-dash/blob/main/summary_pdf/%EB%A6%AC%EA%B7%B8%EC%98%A4%EB%B8%8C%EB%A0%88%EC%A0%84%EB%93%9C_%EC%8B%A0%EA%B3%A0%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C_%EC%B5%9C%EC%A2%85.pdf) / [(VELOG) 좀 더 자세한 내용](https://velog.io/@liveandletlive/series/RIOT-API)
