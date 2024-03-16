@@ -5,11 +5,20 @@
 * (14.1)	2024년 1월 10일 수요일 라이엇 패치 예정
 
 # LeagueOfLegends dashboard
-## 대시보드 구경하기 [LeagueOfLegends-dashboard🎮](https://leagueoflegends-dash-ytcwvappksi2kdzg8jtjynj.streamlit.app/)
-(RIOT Api가 필요합니다)
+* 대시보드 구경하기 [**LeagueOfLegends-dashboard🎮**](https://leagueoflegends-dash-ytcwvappksi2kdzg8jtjynj.streamlit.app/)
+* 해당 프로젝트를 정리한 PDF 요약본 입니다! [**📑요약자료 보기**](https://github.com/KGochae/LeagueOfLegends-dash/blob/main/summary_pdf/%EB%A6%AC%EA%B7%B8%EC%98%A4%EB%B8%8C%EB%A0%88%EC%A0%84%EB%93%9C_%EC%8B%A0%EA%B3%A0%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C_%EC%B5%9C%EC%A2%85.pdf) 
+*  해당[(**VELOG**)](https://velog.io/@liveandletlive/series/RIOT-API)에서 좀 더 자세한 내용을 보실 수 있습니다
+
+* 사용방법
+![image](https://github.com/KGochae/LeagueOfLegends-dash/assets/86241587/f152ee3e-db0a-4966-9389-7e24d9bd0ca6)
+
+- [Riot Developer Portal](https://developer.riotgames.com/) 에 들어가서 로그인 후, api_key를 준비합니다!
+- 메인페이지의 SIDE BAR 에 있는 **유저의 닉네임(summoner_name)** 과 발급받은 **API_KEY** 를 입력하시면 가장 최근 경기에 대한 요약이 나옵니다.
+- 현재는 총 4가지 신고 사유가 있습니다.(현재는 체크하실 필요없이 모든 결과를 볼 수 있습니다.)
+
+
 # 1.프로젝트 소개 
 
-> * [📑요약자료 보기](https://github.com/KGochae/LeagueOfLegends-dash/blob/main/summary_pdf/%EB%A6%AC%EA%B7%B8%EC%98%A4%EB%B8%8C%EB%A0%88%EC%A0%84%EB%93%9C_%EC%8B%A0%EA%B3%A0%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C_%EC%B5%9C%EC%A2%85.pdf) / [(VELOG) 좀 더 자세한 내용](https://velog.io/@liveandletlive/series/RIOT-API)
 * 대표 AOS 게임 리그 오브 레전드 게임은 몇년동안 사랑받는 만큼 '고의적으로 게임을 망치는 유저들' 흔히 말하는 '트롤' 문제도 꾸준히 이어지고 있습니다.
 * 현재 리그 오브 레전드에서 대표적인 신고사유는 아래와 같습니다.
 > ![image](https://github.com/KGochae/LeagueOfLegends-dash/assets/86241587/33069244-f364-47fb-9d1b-02c4b8859f50)
@@ -85,13 +94,7 @@
 └── riot.py --------- # 데이터 수집 및 전처리 
 ```
 
-# 5. 사용방법
-![image](https://github.com/KGochae/LeagueOfLegends-dash/assets/86241587/f152ee3e-db0a-4966-9389-7e24d9bd0ca6)
 
-- [Riot Developer Portal](https://developer.riotgames.com/) 에 들어가서 로그인 후, api_key를 준비합니다!
-- 메인페이지의 SIDE BAR 에 있는 **유저의 닉네임(summoner_name)** 과 발급받은 **API_KEY** 를 입력하시면 가장 최근 경기에 대한 요약이 나옵니다.
-- 현재는 총 4가지 신고 사유가 있습니다.( 체크하실 필요없이 모든 결과를 볼 수 있습니다.)
-
-# 6. 자세한 내용보러가기
+# 5. 자세한 내용보러가기
 
 - 항목별 자세한 내용은 [VELOG](https://velog.io/@liveandletlive/series/RIOT-API) 에서 확인하실 수 있습니다😀.
