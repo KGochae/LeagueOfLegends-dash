@@ -7,7 +7,7 @@ import plotly.express as px
 
 
 # RIOT.PY
-from riot import get_match_data_log, get_rank_info, get_match_v5, get_moving_data, get_events,create_animation,calculate_lane
+from riot import get_match_data_log, get_rank_info, get_match, get_moving_data, get_events,create_animation,calculate_lane
 from riot import get_logs_all, radar_chart, get_item_gold, get_damage_logs, score_weighted, get_spell_info, score3
 
 import pandas as pd
@@ -36,10 +36,16 @@ st.caption('신고된 경기의 데이터를 기반으로 유저의 제제여부
 # 사이드바
 with st.sidebar:
     with st.form(key ='searchform'):
-        summoner_name = st.text_input("search_summoner")
+        c1,c2 = st.columns([3,1])
+        with c1:
+            summoner_name = st.text_input("search_summoner")        
+        with c2:
+            tagline = st.text_input("tagline",
+                                    type="default")     
+
         api_key = st.text_input("api_key",
                                 type = "password"
-                               )        
+                               )
         st.markdown("---")
         st.write('유저 신고 사유')
         clue = st.checkbox(label="All")
@@ -53,9 +59,9 @@ with st.sidebar:
 
 if submit_search :
     try:
-        puuid, summoner_id, match_ids, match_data_log = get_match_data_log(summoner_name, api_key)
+        puuid, summoner_id = get_match_data_log(summoner_name, tagline, api_key)
         rank_data  = get_rank_info(summoner_id,api_key)
-        match_info, df, summoner_position, champion_info, game_duration =  get_match_v5(match_ids, puuid ,api_key)
+        match_ids, match_data_log, match_info, df, summoner_position, champion_info = get_match(api_key, puuid)
         id_df, participant_ids, summoner_participantId, moving = get_moving_data(match_data_log,puuid)
         all_events, position_logs = get_events(match_data_log)
         
