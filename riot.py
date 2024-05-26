@@ -24,32 +24,22 @@ from sklearn.preprocessing import MinMaxScaler
 # Create API client.
 # api_key  = st.secrets.RIOTAPI.api_key
 
-# 가장 최근경기 가져오기
-
-def get_match_data_log(summoner_name, api_key, start=0,count=1):
+# 유저 정
+def get_match_data_log(summoner_name, tagline, api_key):
     # Get summoner puuid
-    sohwan = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{}?api_key={}"
-    url = sohwan.format(summoner_name, api_key)
+    sohwan  = "https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{}/{}?api_key={}"
+    url = sohwan.format(summoner_name, tagline, api_key)
     response = requests.get(url)
     puuid = response.json()['puuid']
+
+
+    # Get summoner id
+    sowhan = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{}?api_key={}" 
+    url = sowhan.format(puuid, api_key)
+    response = requests.get(url)
     summoner_id = response.json()['id']
 
-    # Get match ids
-    matchid_url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/{}/ids?type=ranked&start={}&count={}&api_key={}"
-    url = matchid_url.format(puuid, start, count, api_key)
-    response = requests.get(url)
-    match_ids = response.json()
-    
-    # Get match data for each match id
-    match_data_log = []
-    time_url = 'https://asia.api.riotgames.com/lol/match/v5/matches/{}/timeline?api_key={}'
-    for i, match_id in enumerate(match_ids):
-        url = time_url.format(match_id, api_key)
-        response = requests.get(url)
-        match_data_log.append(pd.DataFrame(response.json()))    
-
-    return  puuid,summoner_id, match_ids, pd.concat(match_data_log)
-
+    return  puuid, summoner_id
 
 
 # 유저의 랭크와 승률  
@@ -63,17 +53,31 @@ def get_rank_info (summoner_id, api_key):
 
 
 # match_v5 (경기가 끝나고 나오는 통계요약약)
-def get_match_v5(match_ids, puuid ,api_key):
-    url = 'https://asia.api.riotgames.com/lol/match/v5/matches/{}?api_key={}'
-    match_data = []
-    for match_id in match_ids:
-        response = requests.get(url.format(match_id, api_key))
-        match_data.append(pd.DataFrame(response.json()))
-    
-    match_df = pd.concat(match_data)
-    game_duration = match_df['info']['gameDuration']
+def get_match(api_key, puuid, start=0,count=1):
+    # Get match ids
+    matchid_url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/{}/ids?type=ranked&start={}&count={}&api_key={}"
+    url = matchid_url.format(puuid, start, count, api_key)
+    response = requests.get(url)
+    match_ids = response.json()
+
+    # Get match data for each match id
+    match_data_log= []
+    time_url = 'https://asia.api.riotgames.com/lol/match/v5/matches/{}/timeline?api_key={}'
+    for i, match_id in enumerate(match_ids):
+        url = time_url.format(match_id, api_key)
+        response = requests.get(url)
+        match_data_log.append(pd.DataFrame(response.json()))   
+
+    # 경기 통계
+    match_id = match_ids[0]
+    match_url = 'https://asia.api.riotgames.com/lol/match/v5/matches/{}?api_key={}'  # matchid , api_key`
+    url = match_url.format(match_id,api_key)
+    response = requests.get(url)
+    match_data_v5 = response.json()
+
+    match_df = pd.DataFrame(match_data_v5)
     df = pd.DataFrame(match_df['info']['participants'])
-    
+
     sample = df[['teamId','puuid','summonerName','participantId','teamPosition', 'challenges','summoner1Id','summoner2Id',
         'championName','lane','kills','deaths','assists','totalMinionsKilled','neutralMinionsKilled','goldEarned','goldSpent','champExperience','item0','item1','item2',
         'item3','item4','item5','item6','totalDamageDealt','totalDamageDealtToChampions','totalDamageTaken','damageDealtToTurrets','damageDealtToBuildings',
@@ -87,17 +91,17 @@ def get_match_v5(match_ids, puuid ,api_key):
     jungle_col = challenge.filter(regex='^jungle|Jungle|kda')
 
     match_info = pd.concat([sample , col, jungle_col], axis = 1)
+    match_info['summonerName'] = match_info.apply(lambda row: row['puuid'][:8] if row['summonerName'].strip() == '' else row['summonerName'], axis=1) # summoenrName이 공백으로 생기는 경우가 있다..
     match_info['totalCS'] = match_info['totalMinionsKilled'] + match_info['neutralMinionsKilled']
     match_info['matchId'] = match_df['metadata']['matchId']
     match_info['championName'] = match_info['championName'].apply(lambda x: 'Fiddlesticks' if x == 'FiddleSticks' else x) # 피들스틱 에러
 
-    summoner_position = match_info[match_info['puuid'] == puuid]['teamPosition'].iloc[0]
     champion_info = match_info[['matchId','participantId','teamId','teamPosition','summonerName','puuid','championName']]
+    summoner_position = match_info[match_info['puuid'] == puuid]['teamPosition'].iloc[0]
 
     match_info['win'] = match_info['win'].apply(lambda x: '승리' if x == 1 else '패배')
 
-
-    return match_info, df ,summoner_position ,champion_info,game_duration
+    return match_ids, pd.concat(match_data_log), match_info, df ,summoner_position ,champion_info
 
 
 
