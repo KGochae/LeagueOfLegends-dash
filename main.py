@@ -61,7 +61,7 @@ if submit_search :
     try:
         puuid, summoner_id = get_match_data_log(summoner_name, tagline, api_key)
         rank_data  = get_rank_info(summoner_id,api_key)
-        match_ids, match_data_log, match_info, df, summoner_position, champion_info = get_match(api_key, puuid)
+        match_ids, match_data_log, match_info, df ,summoner_position ,champion_info = get_match(api_key, puuid)
         id_df, participant_ids, summoner_participantId, moving = get_moving_data(match_data_log,puuid)
         all_events, position_logs = get_events(match_data_log)
         
@@ -80,6 +80,7 @@ if submit_search :
 
 
 
+
     #  ------------------------------- session ------------------------- 
         st.session_state.puuid = puuid
         st.session_state.rank_data = rank_data
@@ -91,7 +92,6 @@ if submit_search :
         st.session_state.df = df
         st.session_state.summoner_participantId = summoner_participantId
         st.session_state.summoner_position = summoner_position
-        st.session_state.game_duration = game_duration
 
         st.session_state.moving = moving
         st.session_state.position_logs = position_logs
@@ -188,8 +188,6 @@ if hasattr(st.session_state, 'summoner_participantId'):
 if hasattr(st.session_state, 'champion_images'):
     champion_images = st.session_state.champion_images
 
-if hasattr(st.session_state, 'game_duration'):
-    game_duration = st.session_state.game_duration
 
 # 스펠 정보
 if hasattr(st.session_state, 'spell_info'):
