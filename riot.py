@@ -24,7 +24,7 @@ from sklearn.preprocessing import MinMaxScaler
 # Create API client.
 # api_key  = st.secrets.RIOTAPI.api_key
 
-# 유저 정
+# 유저 정보
 def get_match_data_log(summoner_name, tagline, api_key):
     # Get summoner puuid
     sohwan  = "https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{}/{}?api_key={}"
@@ -52,7 +52,6 @@ def get_rank_info (summoner_id, api_key):
     return rank_data
 
 
-# match_v5 (경기가 끝나고 나오는 통계요약약)
 def get_match(api_key, puuid, start=0,count=1):
     # Get match ids
     matchid_url = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/{}/ids?type=ranked&start={}&count={}&api_key={}"
