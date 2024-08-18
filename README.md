@@ -1,7 +1,7 @@
 ### issue
 * ~(2023-07-31) rank url 에 문제가 생겼습니다. (최근 승/패 여부와 rank 에 관한 정보)~ 
 * (2023-08-08) 잠시 보안 문제로 APIkey 를 직접 발급해야지 이용할 수 있도록 변경했습니다.🥹
-* (2023-11) 11월 21일 이후부터는 소환사 이름이 삭제되고, 모든 라이엇 게임에서 Riot ID가 사용됩니다. 
+* (2023-11) 11월 21일 이후부터는 소환사 이름이 삭제되고, 모든 라이엇 게임에서 Riot ID가 사용됩니다. -> 고유 태그 KEY가 추가되었습니다.
 * (14.1)	2024년 1월 10일 수요일 라이엇 패치 예정
 
 # LeagueOfLegends dashboard
@@ -9,11 +9,14 @@
 * 해당 프로젝트를 정리한 PDF 요약본 입니다! [**📑요약자료 보기**](https://github.com/KGochae/LeagueOfLegends-dash/blob/main/summary_pdf/%EB%A6%AC%EA%B7%B8%EC%98%A4%EB%B8%8C%EB%A0%88%EC%A0%84%EB%93%9C_%EC%8B%A0%EA%B3%A0%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C_%EC%B5%9C%EC%A2%85.pdf) 
 *  해당[(**VELOG**)](https://velog.io/@liveandletlive/series/RIOT-API)에서 좀 더 자세한 내용을 보실 수 있습니다
 
-* 사용방법
+#### 사용방법
 ![image](https://github.com/KGochae/LeagueOfLegends-dash/assets/86241587/f152ee3e-db0a-4966-9389-7e24d9bd0ca6)
 
 - [Riot Developer Portal](https://developer.riotgames.com/) 에 들어가서 로그인 후, api_key를 준비합니다!
-- 메인페이지의 SIDE BAR 에 있는 **유저의 닉네임(summoner_name)** 과 발급받은 **API_KEY** 를 입력하시면 가장 최근 경기에 대한 요약이 나옵니다.
+- 메인페이지의 SIDE BAR 에 있는 유저의 **닉네임(summoner_name) + 태그(Tagline)** 와 발급받은 API_KEY 를 입력하시면 가장 최근 경기(신고를 받았다는 가정)에 대한 요약이 나옵니다.
+#### 유저의 닉네임과 태그라인 예시 (OP.GG 전적검색)
+![example](https://github.com/user-attachments/assets/56612005-96a6-4e6a-a7f0-4b25ce36b221)
+
 - 현재는 총 4가지 신고 사유가 있습니다.(현재는 체크하실 필요없이 모든 결과를 볼 수 있습니다.)
 
 
