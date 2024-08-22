@@ -183,9 +183,8 @@ def get_logs_all (all_events,moving,summoner_participantId):
     return df_k, logs_all, kill_damage, death_damage, assist_damage
 
 
-#  딜교환 여부, 해당 유저의 kill death assist 했을때 스킬,피해량에 대한 로그
-def get_damage_logs (death_damage,kill_damage,assist_damage):
-
+# 딜교환 여부, 해당 유저의 kill death assist 했을때 스킬, 피해량에 대한 로그
+def get_damage_logs(death_damage, kill_damage, assist_damage):
     # 내가 죽은경우 받은 피해량을 확인한다.
     death_list = []
     if not death_damage.empty:
@@ -194,15 +193,16 @@ def get_damage_logs (death_damage,kill_damage,assist_damage):
             df['timestamp'] = ts
             death_list.append(df)
 
-        death_damage_log = pd.concat(death_list, axis=0)
-        death_damage_log = death_damage_log[['timestamp','name','spellName','magicDamage','participantId','physicalDamage','trueDamage']]
-        death_damage_log['name'] = death_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
-
+        if death_list:  # 빈 리스트가 아닌 경우에만 concat 수행
+            death_damage_log = pd.concat(death_list, axis=0)
+            death_damage_log = death_damage_log[['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage']]
+            death_damage_log['name'] = death_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
+        else:
+            death_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
     else: 
         death_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
 
-
-   # 내가 죽었을 때 반격했는지 확인 할 수 있다.
+    # 내가 죽었을 때 반격했는지 확인 할 수 있다.
     valid_data = death_damage[~death_damage['victimDamageDealt'].isna()]
     counter_list = []
     if not death_damage.empty:
@@ -210,12 +210,15 @@ def get_damage_logs (death_damage,kill_damage,assist_damage):
             df = pd.json_normalize(a)
             df['timestamp'] = ts
             counter_list.append(df)
-        counter_damage_log = pd.concat(counter_list, axis =0)
-        counter_damage_log = counter_damage_log[['timestamp','name','spellName','magicDamage','participantId','physicalDamage','trueDamage']]
-        counter_damage_log['name'] = counter_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
-    
+
+        if counter_list:  # 빈 리스트가 아닌 경우에만 concat 수행
+            counter_damage_log = pd.concat(counter_list, axis=0)
+            counter_damage_log = counter_damage_log[['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage']]
+            counter_damage_log['name'] = counter_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
+        else:
+            counter_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
     else: 
-        counter_damage_log = pd.DataFrame()
+        counter_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
 
     # 소환사의 kill damage 로그 
     k = kill_damage[~kill_damage['victimDamageReceived'].isna()]
@@ -225,12 +228,15 @@ def get_damage_logs (death_damage,kill_damage,assist_damage):
             df = pd.json_normalize(d)
             df['timestamp'] = ts
             kill_list.append(df)
-        kill_damage_log = pd.concat(kill_list, axis=0)
-        kill_damage_log = kill_damage_log[['timestamp','name','spellName','magicDamage','participantId','physicalDamage','trueDamage']]
-        kill_damage_log['name'] = kill_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
 
+        if kill_list:  # 빈 리스트가 아닌 경우에만 concat 수행
+            kill_damage_log = pd.concat(kill_list, axis=0)
+            kill_damage_log = kill_damage_log[['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage']]
+            kill_damage_log['name'] = kill_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
+        else:
+            kill_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
     else: 
-        kill_damage_log = pd.DataFrame()
+        kill_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
 
     # 소환사의 assist damage 로그 
     a = assist_damage[~assist_damage['victimDamageReceived'].isna()]
@@ -240,17 +246,22 @@ def get_damage_logs (death_damage,kill_damage,assist_damage):
             df = pd.json_normalize(d)
             df['timestamp'] = ts
             assist_list.append(df)
-        assist_damage_log = pd.concat(assist_list, axis=0)
-        assist_damage_log = assist_damage_log[['timestamp','name','spellName','magicDamage','participantId','physicalDamage','trueDamage']]
-        assist_damage_log['name'] = assist_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
+
+        if assist_list:  # 빈 리스트가 아닌 경우에만 concat 수행
+            assist_damage_log = pd.concat(assist_list, axis=0)
+            assist_damage_log = assist_damage_log[['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage']]
+            assist_damage_log['name'] = assist_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
+        else:
+            assist_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
     else: 
-        assist_damage_log = pd.DataFrame()
+        assist_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
 
-
-    damage_counter = pd.concat([death_damage_log, counter_damage_log])
+    # 반격 및 데스 로그 결합
+    damage_counter = pd.concat([death_damage_log, counter_damage_log]) if not death_damage_log.empty or not counter_damage_log.empty else pd.DataFrame()
     damage_counter['name'] = damage_counter['name'].apply(lambda x: 'Fiddlesticks' if x == 'FiddleSticks' else x) # 피들스틱 에러
-    # ka_dmg_log = pd.concat([kill_damage_log, assist_damage_log]) 
-    kda_dmg_log = pd.concat([kill_damage_log,assist_damage_log,counter_damage_log])
+
+    # kill, assist, counter damage 로그 결합
+    kda_dmg_log = pd.concat([kill_damage_log, assist_damage_log, counter_damage_log]) if not kill_damage_log.empty or not assist_damage_log.empty or not counter_damage_log.empty else pd.DataFrame()
 
     return death_damage_log, counter_damage_log, damage_counter, kill_damage_log, assist_damage_log, kda_dmg_log
 
