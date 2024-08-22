@@ -19,10 +19,13 @@ from matplotlib.animation import FuncAnimation
 from sklearn.preprocessing import MinMaxScaler
 
 # 패치 버전
-# version = '14.1.1'
-
-# Create API client.
-# api_key  = st.secrets.RIOTAPI.api_key
+# ddragon api를 최신버전으로 계속 업데이트해야함 
+def DDRAGON_VER():
+    url = 'https://ddragon.leagueoflegends.com/api/versions.json'
+    response = requests.get(url)
+    version = response.json()[0] # 가장 최근 버전
+    return version 
+version = DDRAGON_VER()
 
 # 유저 정보
 def get_match_data_log(summoner_name, tagline, api_key):
@@ -270,7 +273,7 @@ def create_animation(participant_ids,puuid,champion_info, logs_all):
     champion_images = {}
     for idx, champ in champion_info.iterrows():
         champion_name = champ['championName']
-        champion_url = f"https://ddragon.leagueoflegends.com/cdn/13.24.1/img/champion/{champion_name}.png"
+        champion_url = f"https://ddragon.leagueoflegends.com/cdn/{version}/img/champion/{champion_name}.png"
         response = requests.get(champion_url)
         img = Image.open(BytesIO(response.content))
         champion_images[champion_name] = img
