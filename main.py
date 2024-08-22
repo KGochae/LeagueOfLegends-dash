@@ -7,7 +7,7 @@ import plotly.express as px
 
 
 # RIOT.PY
-from riot import get_match_data_log, get_rank_info, get_match, get_moving_data, get_events,create_animation,calculate_lane
+from riot import DDRAGON_VER, get_match_data_log, get_rank_info, get_match, get_moving_data, get_events,create_animation,calculate_lane
 from riot import get_logs_all, radar_chart, get_item_gold, get_damage_logs, score_weighted, get_spell_info, score3
 
 import pandas as pd
@@ -24,9 +24,7 @@ with open( "css/main_css.css" ) as css:
 
 # Create API client.
 # api_key = st.secrets.RIOTAPI.api_key
-
 mpl.rcParams['animation.embed_limit'] = 40 # animation limit MB
-version = '13.24.1'
 
 
 st.title('League Of Legends')
@@ -59,6 +57,7 @@ with st.sidebar:
 
 if submit_search :
     try:
+        version = DDRAGON_VER()
         puuid, summoner_id = get_match_data_log(summoner_name, tagline, api_key)
         rank_data  = get_rank_info(summoner_id,api_key)
         match_ids, match_data_log, match_info, df ,summoner_position ,champion_info = get_match(api_key, puuid)
@@ -82,6 +81,7 @@ if submit_search :
 
 
     #  ------------------------------- session ------------------------- 
+        st.session_state.version = version
         st.session_state.puuid = puuid
         st.session_state.rank_data = rank_data
         st.session_state.summoner_name = summoner_name
@@ -134,6 +134,10 @@ if submit_search :
 
 
 #  ------------------------------------------------------------------
+
+if hasattr(st.session_state, 'version'):
+    version = st.session_state.version
+
 
 if hasattr(st.session_state, 'puuid'):
     puuid = st.session_state.puuid
