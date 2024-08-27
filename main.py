@@ -1114,13 +1114,15 @@ if hasattr(st.session_state, 'moving'):
             grouped_logs = new_se.groupby(['timestamp', 'type']).size().reset_index(name='count')
             # 각 timestamp에서의 로그별 빈도수를 계산
             pivot_type = pd.pivot_table(grouped_logs, values='count', index='timestamp', columns='type', fill_value=0)
-             
-            expander = st.expander("유저의 전체 LOG 보기")
+
+            # 유저의 행동 log 시각화
+            st.line_chart(pivot_type, use_container_width=True) 
+            expander = st.expander("유저의 세부 LOG 보기")        
             with expander:
                 col1, col2 = st.columns([2,1]) # 두 개의 컬럼 생성
                 col1.dataframe(se_item)
-                # col2.line_chart(pivot_type, use_container_width=True)
                 col2.dataframe(count)
+
 
         st.divider()    
 
