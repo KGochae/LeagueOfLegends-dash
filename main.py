@@ -29,7 +29,7 @@ mpl.rcParams['animation.embed_limit'] = 40 # animation limit MB
 
 st.title('League Of Legends')
 st.subheader('Report dash board')
-st.caption('신고된 경기의 데이터를 기반으로 유저의 제제여부를 결정할 수 있는 대시보드입니다. 경기가 끝나고 신고를했다는 가정이므로 가장 최근에 진행한 경기의 정보가 나옵니다.😀')
+st.caption('신고된 경기의 데이터를 기반으로 유저의 제제여부를 결정할 수 있는 대시보드입니다. 경기가 끝나고 신고를 받았다는 가정으로, 가장 최근에 진행한 경기의 정보가 나옵니다.')
 
 # 사이드바
 with st.sidebar:
@@ -58,8 +58,8 @@ with st.sidebar:
 if submit_search :
     try:
         version = DDRAGON_VER()
-        puuid, summoner_id = get_match_data_log(summoner_name, tagline, api_key)
-        rank_data  = get_rank_info(summoner_id,api_key)
+        puuid = get_match_data_log(summoner_name, tagline, api_key)
+        rank_data  = get_rank_info(puuid,api_key)
         match_ids, match_data_log, match_info, df ,summoner_position ,champion_info = get_match(api_key, puuid)
         id_df, participant_ids, summoner_participantId, moving = get_moving_data(match_data_log,puuid)
         all_events, position_logs = get_events(match_data_log)
@@ -1504,6 +1504,7 @@ if hasattr(st.session_state, 'damage_counter'):
                                     st.metric('hide',f'{position}',f'{champion_names[2]}', delta_color='off')
                                 else:
                                     st.caption('None')
+
 
 
 
