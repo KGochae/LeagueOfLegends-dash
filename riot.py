@@ -36,13 +36,13 @@ def get_match_data_log(summoner_name, tagline, api_key):
     puuid = response.json()['puuid']
 
 
-    # Get summoner id
-    sowhan = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{}?api_key={}" 
-    url = sowhan.format(puuid, api_key)
-    response = requests.get(url)
-    summoner_id = response.json()['id']
+    # Get summoner id # 
+    # sowhan = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{}?api_key={}" 
+    # url = sowhan.format(puuid, api_key)
+    # response = requests.get(url)
+    # summoner_id = response.json()['id']
 
-    return  puuid, summoner_id
+    return  puuid
 
 
 # 유저의 랭크와 승률  
