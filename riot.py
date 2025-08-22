@@ -46,12 +46,11 @@ def get_match_data_log(summoner_name, tagline, api_key):
 
 
 # 유저의 랭크와 승률  
-def get_rank_info (summoner_id, api_key):
-    rank_info = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{}?api_key={}"
-    url = rank_info.format(summoner_id, api_key)
+def get_rank_info (puuid, api_key):
+    rank_info = "https://kr.api.riotgames.com/lol/league/v4/entries/by-puuid/{}?api_key={}"    
+    url = rank_info.format(puuid, api_key)
     response = requests.get(url)
     rank_data = response.json()
-
     return rank_data
 
 
