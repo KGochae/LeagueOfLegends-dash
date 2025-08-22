@@ -14,8 +14,8 @@
 
 - [Riot Developer Portal](https://developer.riotgames.com/) 에 들어가서 로그인 후, api_key를 준비합니다!
 - 메인페이지의 SIDE BAR 에 있는 유저의 **닉네임(summoner_name) + 태그(Tagline)** 와 발급받은 API_KEY 를 입력하시면 가장 최근 경기(신고를 받았다는 가정)에 대한 요약이 나옵니다.
-#### 유저의 닉네임과 태그라인 예시 (OP.GG 전적검색)
-![example](https://github.com/user-attachments/assets/56612005-96a6-4e6a-a7f0-4b25ce36b221)
+#### 유저의 닉네임과 태그라인 예시 (your.GG 전적검색)
+<img width="945" height="269" alt="image" src="https://github.com/user-attachments/assets/28de5e2c-fd60-47f5-84d3-98a9ba284d7b" />
 
 - 현재는 총 4가지 신고 사유가 있습니다.(현재는 체크하실 필요없이 모든 결과를 볼 수 있습니다.)
 
