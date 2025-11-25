@@ -1436,7 +1436,7 @@ if hasattr(st.session_state, 'damage_counter'):
                                 with col2_1:
                                     if len(champion_names) < 1:
                                         st.caption('None')
-                                    elif not champion_names[0] in ['Minion/Monster','Turret']:
+                                    elif not champion_names[0] in ['Minion/Monster','Turret','']:
                                         position = champion_info[champion_info['championName'] == champion_names[0]]['teamPosition'].iloc[0]
                                         st.image(champion_images[champion_names[0]])
                                         st.metric('hide',f'{position}',f'{champion_names[0]}', delta_color='off')
@@ -1454,7 +1454,7 @@ if hasattr(st.session_state, 'damage_counter'):
                                 with col2_3:
                                     if len(champion_names) < 3:
                                         st.caption('None')
-                                    elif not champion_names[2] in ['Minion/Monster','Turret']:
+                                    elif not champion_names[2] in ['Minion/Monster','Turret','']:
                                         position = champion_info[champion_info['championName'] == champion_names[2]]['teamPosition'].iloc[0]
                                         st.image(champion_images[champion_names[2]])
                                         st.metric('hide',f'{position}',f'{champion_names[2]}', delta_color='off')
@@ -1478,7 +1478,7 @@ if hasattr(st.session_state, 'damage_counter'):
                             with col2_1:
                                 if len(champion_names) < 1:
                                     st.caption('None')                                
-                                elif not champion_names[0] in ['Minion/Monster','Turret']:
+                                elif not champion_names[0] in ['Minion/Monster','Turret','']:
                                     position = champion_info[champion_info['championName'] == champion_names[0]]['teamPosition'].iloc[0]
                                     st.image(champion_images[champion_names[0]])
                                     st.metric('hide',f'{position}',f'{champion_names[0]}', delta_color='off')
@@ -1488,7 +1488,7 @@ if hasattr(st.session_state, 'damage_counter'):
                             with col2_2:
                                 if len(champion_names) < 2:
                                     st.caption('None')                                
-                                elif not champion_names[1] in ['Minion/Monster','Turret']:
+                                elif not champion_names[1] in ['Minion/Monster','Turret','']:
                                     position = champion_info[champion_info['championName'] == champion_names[1]]['teamPosition'].iloc[0]
                                     st.image(champion_images[champion_names[1]])
                                     st.metric('hide',f'{position}',f'{champion_names[1]}', delta_color='off')
@@ -1498,12 +1498,13 @@ if hasattr(st.session_state, 'damage_counter'):
                             with col2_3:
                                 if len(champion_names) < 3:
                                     st.caption('None')                                
-                                elif not champion_names[2] in ['Minion/Monster','Turret']:
+                                elif not champion_names[2] in ['Minion/Monster','Turret','']:
                                     position = champion_info[champion_info['championName'] == champion_names[2]]['teamPosition'].iloc[0]
                                     st.image(champion_images[champion_names[2]])
                                     st.metric('hide',f'{position}',f'{champion_names[2]}', delta_color='off')
                                 else:
                                     st.caption('None')
+
 
 
 
