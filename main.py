@@ -14,6 +14,52 @@ import pandas as pd
 import streamlit.components.v1 as components
 import matplotlib as mpl
 
+# ---- 샘플 데이터(API 키 없이 시연) 관련 ----
+import os
+import json
+import requests
+from contextlib import contextmanager
+
+SAMPLE_DIR = os.path.join(os.path.dirname(__file__), 'sample_data')
+SAMPLE_CACHE = os.path.join(SAMPLE_DIR, 'riot_cache.json')
+SAMPLE_NAME, SAMPLE_TAG = '빛 챤', 'xoxv'
+
+
+def _strip_key(url):
+    # api_key 파라미터를 제거해 캐시 키로 사용
+    for sep in ('&api_key=', '?api_key='):
+        if sep in url:
+            return url.split(sep)[0]
+    return url
+
+
+class _CachedResp:
+    def __init__(self, data):
+        self._data = data
+        self.status_code = 200
+
+    def json(self):
+        return self._data
+
+
+@contextmanager
+def _sample_requests(cache):
+    """샘플 모드 동안 riotgames API 호출만 캐시로 응답하고, ddragon 등은 실제 요청."""
+    real_get = requests.get
+
+    def fake_get(url, *args, **kwargs):
+        if 'api.riotgames.com' in url:
+            key = _strip_key(url)
+            if key in cache:
+                return _CachedResp(cache[key])
+        return real_get(url, *args, **kwargs)
+
+    requests.get = fake_get
+    try:
+        yield
+    finally:
+        requests.get = real_get
+
 
 # -------------------------------------------- main -----------------------------------------------------
 pd.set_option('mode.chained_assignment',  None)
@@ -55,79 +101,94 @@ with st.sidebar:
         submit_search = st.form_submit_button()
 
 
+def _build_session_state(summoner_name, tagline, api_key):
+    """검색/샘플 공통 데이터 파이프라인 → session_state 채우기."""
+    version = DDRAGON_VER()
+    puuid = get_match_data_log(summoner_name, tagline, api_key)
+    rank_data  = get_rank_info(puuid,api_key)
+    match_ids, match_data_log, match_info, df ,summoner_position ,champion_info = get_match(api_key, puuid)
+    id_df, participant_ids, summoner_participantId, moving = get_moving_data(match_data_log,puuid)
+    all_events, position_logs = get_events(match_data_log)
+
+    radar_data = radar_chart(match_info)
+    total_score, match_score = score_weighted(match_info)
+    score_3  = score3(match_score)
+
+    item_gold = get_item_gold()
+    spell_info = get_spell_info(champion_info, puuid)
+
+    df_k, logs_all, kill_damage, death_damage, assist_damage = get_logs_all (all_events,moving,summoner_participantId)
+    death_damage_log, counter_damage_log, damage_counter, kill_damage_log, assist_damage_log, kda_dmg_log = get_damage_logs(death_damage, kill_damage, assist_damage)
+
+    champion_images, ani = create_animation(participant_ids,puuid,champion_info,logs_all)
+    html = ani.to_jshtml()
+
+    #  ------------------------------- session -------------------------
+    st.session_state.version = version
+    st.session_state.puuid = puuid
+    st.session_state.rank_data = rank_data
+    st.session_state.summoner_name = summoner_name
+    st.session_state.champion_info = champion_info
+    st.session_state.match_info = match_info
+
+    st.session_state.match_ids = match_ids
+    st.session_state.df = df
+    st.session_state.summoner_participantId = summoner_participantId
+    st.session_state.summoner_position = summoner_position
+
+    st.session_state.moving = moving
+    st.session_state.position_logs = position_logs
+
+    st.session_state.logs_all = logs_all
+    st.session_state.df_k = df_k
+    st.session_state.radar_data = radar_data
+    st.session_state.match_score = match_score
+    st.session_state.score_3 = score_3
+
+    st.session_state.item_gold = item_gold
+    st.session_state.spell_info = spell_info
+    st.session_state.all_events = all_events
+
+    st.session_state.death_damage = death_damage
+    st.session_state.death_damage_log = death_damage_log
+
+    st.session_state.counter_damage_log = counter_damage_log
+    st.session_state.damage_counter = damage_counter
+
+    st.session_state.kill_damage = kill_damage
+    st.session_state.assist_damage = assist_damage
+    st.session_state.kill_damage_log = kill_damage_log
+    st.session_state.assist_damage_log = assist_damage_log
+    st.session_state.kda_dmg_log = kda_dmg_log
+
+    st.session_state.champion_images = champion_images
+    st.session_state.html = html
+
+
 if submit_search :
     try:
-        version = DDRAGON_VER()
-        puuid = get_match_data_log(summoner_name, tagline, api_key)
-        rank_data  = get_rank_info(puuid,api_key)
-        match_ids, match_data_log, match_info, df ,summoner_position ,champion_info = get_match(api_key, puuid)
-        id_df, participant_ids, summoner_participantId, moving = get_moving_data(match_data_log,puuid)
-        all_events, position_logs = get_events(match_data_log)
-        
-        radar_data = radar_chart(match_info)
-        total_score, match_score = score_weighted(match_info)
-        score_3  = score3(match_score)
-
-        item_gold = get_item_gold()
-        spell_info = get_spell_info(champion_info, puuid)
-
-        df_k, logs_all, kill_damage, death_damage, assist_damage = get_logs_all (all_events,moving,summoner_participantId)
-        death_damage_log, counter_damage_log, damage_counter, kill_damage_log, assist_damage_log, kda_dmg_log = get_damage_logs(death_damage, kill_damage, assist_damage)
-
-        champion_images, ani = create_animation(participant_ids,puuid,champion_info,logs_all)
-        html = ani.to_jshtml()
-
-
-
-
-    #  ------------------------------- session ------------------------- 
-        st.session_state.version = version
-        st.session_state.puuid = puuid
-        st.session_state.rank_data = rank_data
-        st.session_state.summoner_name = summoner_name
-        st.session_state.champion_info = champion_info
-        st.session_state.match_info = match_info
-
-        st.session_state.match_ids = match_ids
-        st.session_state.df = df
-        st.session_state.summoner_participantId = summoner_participantId
-        st.session_state.summoner_position = summoner_position
-
-        st.session_state.moving = moving
-        st.session_state.position_logs = position_logs
-
-        st.session_state.logs_all = logs_all
-        st.session_state.df_k = df_k
-        st.session_state.radar_data = radar_data
-        st.session_state.match_score = match_score
-        st.session_state.score_3 = score_3
-
-        st.session_state.item_gold = item_gold
-        st.session_state.spell_info = spell_info
-        st.session_state.all_events = all_events
-
-        st.session_state.death_damage = death_damage
-        st.session_state.death_damage_log = death_damage_log
-
-        st.session_state.counter_damage_log = counter_damage_log
-        st.session_state.damage_counter = damage_counter
-
-        st.session_state.kill_damage = kill_damage
-        st.session_state.assist_damage = assist_damage
-        st.session_state.kill_damage_log = kill_damage_log
-        st.session_state.assist_damage_log = assist_damage_log
-        st.session_state.kda_dmg_log = kda_dmg_log
-
-        st.session_state.champion_images = champion_images
-        st.session_state.html = html
-
+        _build_session_state(summoner_name, tagline, api_key)
     except Exception as e:
             st.markdown('''
-                        --- 
+                        ---
                         ### 🚨 :red[Error]: RIOT_APIkey와 유저 닉네임을 확인해주세요🥹.
                         ''')
             # 에러가 발생하면 세션 초기화
             st.session_state.clear()
+
+# ---- 최초 접속(검색 전): API 키 없이 샘플(빛 챤) 데이터 자동 로드 ----
+elif 'match_info' not in st.session_state and os.path.exists(SAMPLE_CACHE):
+    try:
+        with open(SAMPLE_CACHE, encoding='utf-8') as _f:
+            _cache = json.load(_f)
+        with _sample_requests(_cache):
+            _build_session_state(SAMPLE_NAME, SAMPLE_TAG, 'SAMPLE')
+        st.session_state.is_sample = True
+    except Exception:
+        st.session_state.clear()
+
+if st.session_state.get('is_sample'):
+    st.info('🔎 API 키 없이 볼 수 있는 **샘플 데이터(빛 챤#xoxv)** 입니다. 왼쪽 사이드바에서 소환사와 API 키를 입력하면 실제 데이터로 조회됩니다.')
 
 
 
@@ -1436,7 +1497,7 @@ if hasattr(st.session_state, 'damage_counter'):
                                 with col2_1:
                                     if len(champion_names) < 1:
                                         st.caption('None')
-                                    elif not champion_names[0] in ['Minion/Monster','Turret','']:
+                                    elif champion_names[0] not in ['Minion/Monster','Turret',''] and champion_names[0] in champion_info['championName'].values and champion_names[0] in champion_images:
                                         position = champion_info[champion_info['championName'] == champion_names[0]]['teamPosition'].iloc[0]
                                         st.image(champion_images[champion_names[0]])
                                         st.metric('hide',f'{position}',f'{champion_names[0]}', delta_color='off')
@@ -1445,7 +1506,7 @@ if hasattr(st.session_state, 'damage_counter'):
                                 with col2_2:
                                     if len(champion_names) < 2:
                                         st.caption('None')
-                                    elif not champion_names[1] in ['Minion/Monster','Turret','']:
+                                    elif champion_names[1] not in ['Minion/Monster','Turret',''] and champion_names[1] in champion_info['championName'].values and champion_names[1] in champion_images:
                                         position = champion_info[champion_info['championName'] == champion_names[1]]['teamPosition'].iloc[0]
                                         st.image(champion_images[champion_names[1]])
                                         st.metric('hide',f'{position}',f'{champion_names[1]}', delta_color='off')
@@ -1454,7 +1515,7 @@ if hasattr(st.session_state, 'damage_counter'):
                                 with col2_3:
                                     if len(champion_names) < 3:
                                         st.caption('None')
-                                    elif not champion_names[2] in ['Minion/Monster','Turret','']:
+                                    elif champion_names[2] not in ['Minion/Monster','Turret',''] and champion_names[2] in champion_info['championName'].values and champion_names[2] in champion_images:
                                         position = champion_info[champion_info['championName'] == champion_names[2]]['teamPosition'].iloc[0]
                                         st.image(champion_images[champion_names[2]])
                                         st.metric('hide',f'{position}',f'{champion_names[2]}', delta_color='off')
@@ -1478,7 +1539,7 @@ if hasattr(st.session_state, 'damage_counter'):
                             with col2_1:
                                 if len(champion_names) < 1:
                                     st.caption('None')                                
-                                elif not champion_names[0] in ['Minion/Monster','Turret','']:
+                                elif champion_names[0] not in ['Minion/Monster','Turret',''] and champion_names[0] in champion_info['championName'].values and champion_names[0] in champion_images:
                                     position = champion_info[champion_info['championName'] == champion_names[0]]['teamPosition'].iloc[0]
                                     st.image(champion_images[champion_names[0]])
                                     st.metric('hide',f'{position}',f'{champion_names[0]}', delta_color='off')
@@ -1488,7 +1549,7 @@ if hasattr(st.session_state, 'damage_counter'):
                             with col2_2:
                                 if len(champion_names) < 2:
                                     st.caption('None')                                
-                                elif not champion_names[1] in ['Minion/Monster','Turret','']:
+                                elif champion_names[1] not in ['Minion/Monster','Turret',''] and champion_names[1] in champion_info['championName'].values and champion_names[1] in champion_images:
                                     position = champion_info[champion_info['championName'] == champion_names[1]]['teamPosition'].iloc[0]
                                     st.image(champion_images[champion_names[1]])
                                     st.metric('hide',f'{position}',f'{champion_names[1]}', delta_color='off')
@@ -1498,7 +1559,7 @@ if hasattr(st.session_state, 'damage_counter'):
                             with col2_3:
                                 if len(champion_names) < 3:
                                     st.caption('None')                                
-                                elif not champion_names[2] in ['Minion/Monster','Turret','']:
+                                elif champion_names[2] not in ['Minion/Monster','Turret',''] and champion_names[2] in champion_info['championName'].values and champion_names[2] in champion_images:
                                     position = champion_info[champion_info['championName'] == champion_names[2]]['teamPosition'].iloc[0]
                                     st.image(champion_images[champion_names[2]])
                                     st.metric('hide',f'{position}',f'{champion_names[2]}', delta_color='off')

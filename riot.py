@@ -79,7 +79,11 @@ def get_match(api_key, puuid, start=0,count=1):
     match_df = pd.DataFrame(match_data_v5)
     df = pd.DataFrame(match_df['info']['participants'])
 
-    sample = df[['teamId','puuid','summonerName','participantId','teamPosition', 'challenges','summoner1Id','summoner2Id',
+    # 최신 Riot API는 summonerName이 비어있고 실제 닉네임은 riotIdGameName에 들어있다. (구버전 매치 방어)
+    if 'riotIdGameName' not in df.columns:
+        df['riotIdGameName'] = ''
+
+    sample = df[['teamId','puuid','summonerName','riotIdGameName','participantId','teamPosition', 'challenges','summoner1Id','summoner2Id',
         'championName','lane','kills','deaths','assists','totalMinionsKilled','neutralMinionsKilled','goldEarned','goldSpent','champExperience','item0','item1','item2',
         'item3','item4','item5','item6','totalDamageDealt','totalDamageDealtToChampions','totalDamageTaken','damageDealtToTurrets','damageDealtToBuildings',
         'totalTimeSpentDead','longestTimeSpentLiving','visionScore','win','timePlayed','damageSelfMitigated','totalDamageShieldedOnTeammates',
@@ -92,7 +96,13 @@ def get_match(api_key, puuid, start=0,count=1):
     jungle_col = challenge.filter(regex='^jungle|Jungle|kda')
 
     match_info = pd.concat([sample , col, jungle_col], axis = 1)
-    match_info['summonerName'] = match_info.apply(lambda row: row['puuid'][:8] if row['summonerName'].strip() == '' else row['summonerName'], axis=1) # summoenrName이 공백으로 생기는 경우가 있다..
+    # 표시용 닉네임: riotIdGameName > summonerName > puuid 앞 8자리 순으로 사용
+    def _display_name(row):
+        name = str(row.get('riotIdGameName') or '').strip()
+        if not name:
+            name = str(row.get('summonerName') or '').strip()
+        return name if name else row['puuid'][:8]
+    match_info['summonerName'] = match_info.apply(_display_name, axis=1)
     match_info['totalCS'] = match_info['totalMinionsKilled'] + match_info['neutralMinionsKilled']
     match_info['matchId'] = match_df['metadata']['matchId']
     match_info['championName'] = match_info['championName'].apply(lambda x: 'Fiddlesticks' if x == 'FiddleSticks' else x) # 피들스틱 에러
@@ -195,7 +205,7 @@ def get_damage_logs(death_damage, kill_damage, assist_damage):
         if death_list:  # 빈 리스트가 아닌 경우에만 concat 수행
             death_damage_log = pd.concat(death_list, axis=0)
             death_damage_log = death_damage_log[['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage']]
-            death_damage_log['name'] = death_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
+            death_damage_log['name'] = death_damage_log['name'].replace(to_replace=r'(?i)^sru_.*', value='Minion/Monster', regex=True)
         else:
             death_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
     else: 
@@ -213,7 +223,7 @@ def get_damage_logs(death_damage, kill_damage, assist_damage):
         if counter_list:  # 빈 리스트가 아닌 경우에만 concat 수행
             counter_damage_log = pd.concat(counter_list, axis=0)
             counter_damage_log = counter_damage_log[['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage']]
-            counter_damage_log['name'] = counter_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
+            counter_damage_log['name'] = counter_damage_log['name'].replace(to_replace=r'(?i)^sru_.*', value='Minion/Monster', regex=True)
         else:
             counter_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
     else: 
@@ -231,7 +241,7 @@ def get_damage_logs(death_damage, kill_damage, assist_damage):
         if kill_list:  # 빈 리스트가 아닌 경우에만 concat 수행
             kill_damage_log = pd.concat(kill_list, axis=0)
             kill_damage_log = kill_damage_log[['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage']]
-            kill_damage_log['name'] = kill_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
+            kill_damage_log['name'] = kill_damage_log['name'].replace(to_replace=r'(?i)^sru_.*', value='Minion/Monster', regex=True)
         else:
             kill_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
     else: 
@@ -249,7 +259,7 @@ def get_damage_logs(death_damage, kill_damage, assist_damage):
         if assist_list:  # 빈 리스트가 아닌 경우에만 concat 수행
             assist_damage_log = pd.concat(assist_list, axis=0)
             assist_damage_log = assist_damage_log[['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage']]
-            assist_damage_log['name'] = assist_damage_log['name'].replace(to_replace=r'^SRU_.*', value='Minion/Monster', regex=True)
+            assist_damage_log['name'] = assist_damage_log['name'].replace(to_replace=r'(?i)^sru_.*', value='Minion/Monster', regex=True)
         else:
             assist_damage_log = pd.DataFrame(columns=['timestamp', 'name', 'spellName', 'magicDamage', 'participantId', 'physicalDamage', 'trueDamage'])
     else: 
